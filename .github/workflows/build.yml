@@ -363,7 +363,7 @@ jobs:
         run: |
           mkdir -p ./tmp/sing-box/rules/disney/
           # Download clash geodata
-          curl -sSL ${disney} | grep -v '#' | grep 'DOMAIN' | sed 's/- DOMAIN,/full:/' | sed 's/- DOMAIN-SUFFIX,//' | sed 's/- DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' > ./community/mydata/disney
+          curl -sSL ${disney} | grep -v '#' | grep 'DOMAIN' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' > ./community/mydata/disney
           # Download clash rule-set_yaml
           echo 'payload:' > ./clash-ruleset/disney.yaml
           curl -sSL ${disney} | grep -Ev '#|DOMAIN-KEYWORD' | grep 'DOMAIN' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> ./clash-ruleset/disney.yaml
@@ -377,7 +377,7 @@ jobs:
         run: |
           mkdir -p ./tmp/sing-box/rules/max/
           # Download clash geodata
-          curl -sSL ${max} | grep -v '#' | grep 'DOMAIN' | sed 's/- DOMAIN,/full:/' | sed 's/- DOMAIN-SUFFIX,//' | sed 's/- DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' > ./community/mydata/max
+          curl -sSL ${max} | grep -v '#' | grep 'DOMAIN' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' > ./community/mydata/max
           # Download clash rule-set_yaml
           echo 'payload:' > ./clash-ruleset/max.yaml
           curl -sSL ${max} | grep -Ev '#|DOMAIN-KEYWORD' | grep 'DOMAIN' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> ./clash-ruleset/max.yaml
@@ -391,7 +391,7 @@ jobs:
         run: |
           mkdir -p ./tmp/sing-box/rules/primevideo/
           # Download clash geodata
-          curl -sSL ${primevideo} | grep -v '#' | grep 'DOMAIN' | sed 's/- DOMAIN,/full:/' | sed 's/- DOMAIN-SUFFIX,//' | sed 's/- DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' > ./community/mydata/primevideo
+          curl -sSL ${primevideo} | grep -v '#' | grep 'DOMAIN' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' > ./community/mydata/primevideo
           # Download clash rule-set_yaml
           echo 'payload:' > ./clash-ruleset/primevideo.yaml
           curl -sSL ${primevideo} | grep -Ev '#|DOMAIN-KEYWORD' | grep 'DOMAIN' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> ./clash-ruleset/primevideo.yaml
@@ -405,7 +405,7 @@ jobs:
         run: |
           mkdir -p ./tmp/sing-box/rules/appletv/
           # Download clash geodata
-          curl -sSL ${appletv} | grep -v '#' | grep 'DOMAIN' | sed 's/- DOMAIN,/full:/' | sed 's/- DOMAIN-SUFFIX,//' | sed 's/- DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' > ./community/mydata/appletv
+          curl -sSL ${appletv} | grep -v '#' | grep 'DOMAIN' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' > ./community/mydata/appletv
           # Download clash rule-set_yaml
           echo 'payload:' > ./clash-ruleset/appletv.yaml
           curl -sSL ${appletv} | grep -Ev '#|DOMAIN-KEYWORD' | grep 'DOMAIN' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> ./clash-ruleset/appletv.yaml
@@ -419,7 +419,7 @@ jobs:
         run: |
           mkdir -p ./tmp/sing-box/rules/youtube/
           # Download clash geodata
-          curl -sSL ${youtube} | grep -v '#' | grep 'DOMAIN' | sed 's/- DOMAIN,/full:/' | sed 's/- DOMAIN-SUFFIX,//' | sed 's/- DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' > ./community/mydata/youtube
+          curl -sSL ${youtube} | grep -v '#' | grep 'DOMAIN' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' > ./community/mydata/youtube
           # Download clash rule-set_yaml
           echo 'payload:' > ./clash-ruleset/youtube.yaml
           curl -sSL ${youtube} | grep -Ev '#|DOMAIN-KEYWORD' | grep 'DOMAIN' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> ./clash-ruleset/youtube.yaml
@@ -433,7 +433,7 @@ jobs:
         run: |
           mkdir -p ./tmp/sing-box/rules/tiktok/
           # Download clash geodata
-          curl -sSL ${tiktok} | grep -v '#' | grep 'DOMAIN' | sed 's/- DOMAIN,/full:/' | sed 's/- DOMAIN-SUFFIX,//' | sed 's/- DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' > ./community/mydata/tiktok
+          curl -sSL ${tiktok} | grep -v '#' | grep 'DOMAIN' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' > ./community/mydata/tiktok
           # Download clash rule-set_yaml
           echo 'payload:' > ./clash-ruleset/tiktok.yaml
           curl -sSL ${tiktok} | grep -Ev '#|DOMAIN-KEYWORD' | grep 'DOMAIN' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> ./clash-ruleset/tiktok.yaml
@@ -447,7 +447,7 @@ jobs:
         run: |
           mkdir -p ./tmp/sing-box/rules/bilibili/
           # Download clash geodata
-          curl -sSL ${bilibili} | grep -v '#' | grep 'DOMAIN' | sed 's/- DOMAIN,/full:/' | sed 's/- DOMAIN-SUFFIX,//' | sed 's/- DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' > ./community/mydata/bilibili
+          curl -sSL ${bilibili} | grep -v '#' | grep 'DOMAIN' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' > ./community/mydata/bilibili
           # Download clash rule-set_yaml
           echo 'payload:' > ./clash-ruleset/bilibili.yaml
           curl -sSL ${bilibili} | grep -Ev '#|DOMAIN-KEYWORD' | grep 'DOMAIN' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> ./clash-ruleset/bilibili.yaml
@@ -461,10 +461,10 @@ jobs:
         run: |
           mkdir -p ./tmp/sing-box/rules/ai/
           # Download clash geodata
-          curl -sSL ${ai1} | grep -v '#' | grep 'DOMAIN' | sed 's/- DOMAIN,/full:/' | sed 's/- DOMAIN-SUFFIX,//' | sed 's/- DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' > ./tmp/temp-ai.txt
-          curl -sSL ${ai2} | grep -v '#' | grep 'DOMAIN' | sed 's/- DOMAIN,/full:/' | sed 's/- DOMAIN-SUFFIX,//' | sed 's/- DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' >> ./tmp/temp-ai.txt
-          curl -sSL ${ai3} | grep -v '#' | grep 'DOMAIN' | sed 's/- DOMAIN,/full:/' | sed 's/- DOMAIN-SUFFIX,//' | sed 's/- DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' >> ./tmp/temp-ai.txt
-          curl -sSL ${ai4} | grep -v '#' | grep 'DOMAIN' | sed 's/- DOMAIN,/full:/' | sed 's/- DOMAIN-SUFFIX,//' | sed 's/- DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' >> ./tmp/temp-ai.txt
+          curl -sSL ${ai1} | grep -v '#' | grep 'DOMAIN' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' > ./tmp/temp-ai.txt
+          curl -sSL ${ai2} | grep -v '#' | grep 'DOMAIN' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' >> ./tmp/temp-ai.txt
+          curl -sSL ${ai3} | grep -v '#' | grep 'DOMAIN' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' >> ./tmp/temp-ai.txt
+          curl -sSL ${ai4} | grep -v '#' | grep 'DOMAIN' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' >> ./tmp/temp-ai.txt
           sort --ignore-case -u ./tmp/temp-ai.txt > ./community/mydata/ai
           # Download clash rule-set_yaml
           curl -sSL ${ai1} | grep -Ev '#|DOMAIN-KEYWORD' | grep 'DOMAIN' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" > ./tmp/temp-ai.txt
