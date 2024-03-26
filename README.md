@@ -254,8 +254,8 @@ $CRASHDIR/start.sh restart
 执行 `crash`，进入 ShellCrash->5 配置自动任务->1 添加自动任务，可以看到末尾就有添加的定时任务，输入对应的数字并回车后可设置执行条件
 # 二、 ruleset 规则集文件说明
 ## 1. 文件类型
-① Clash ruleset 规则集文件，格式为 `.yaml`（`format: text`）  
-② sing-box ruleset 规则集文件，格式有 `.json`（`"format": "source"`）和 `.srs`（`"format": "binary"`）
+① Clash ruleset 规则集文件，格式为 `.yaml`（`format: yaml`）和 `.list`（`format: text`）  
+② sing-box ruleset 规则集文件，格式有 `.srs`（`"format": "binary"`）和 `.json`（`"format": "source"`）
 ## 2. 数据源
 ① 每天凌晨 3 点（北京时间）自动构建  
 ② `rule-set,ads,🛑 广告拦截` 源采用 [privacy-protection-tools/anti-AD](https://github.com/privacy-protection-tools/anti-AD)  
