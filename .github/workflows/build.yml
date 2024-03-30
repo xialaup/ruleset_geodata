@@ -737,7 +737,7 @@ jobs:
 
       - name: Generate `sing-box` rule_set
         run: |
-          curl -sSL https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/master/resouces/bm7.sh | sed '/# 拉文件/,/# 处理文件/d' | sed 's|./rule/Clash/|./rules/|' | grep -v 'DOMAIN-SUFFIX,\/\/g' | sed 's/DOMAIN-SUFFIX,\/.\/g/DOMAIN-SUFFIX,\/\/g/' | sed "s/DOMAIN,\/\/g' >>/DOMAIN,\/\/g' >/" > ./tmp/sing-box/bm7.sh
+          curl -sSL https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/master/resouces/bm7.sh | sed '/# 拉文件/,/# 处理文件/d' | sed 's|./rule/Clash/|./rules/|' > ./tmp/sing-box/bm7.sh
           cd ./tmp/sing-box/
           chmod +x bm7.sh && ./bm7.sh
           rm -rf bm7* sing-box ./rules/
