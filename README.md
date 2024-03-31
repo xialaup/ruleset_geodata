@@ -316,7 +316,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/ads.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/ads.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/ads.list"
     interval: 86400
 
   applications:
@@ -324,7 +324,7 @@ rule-providers:
     behavior: classical
     format: text
     path: ./rules/applications.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/applications.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/applications.list"
     interval: 86400
 
   private:
@@ -332,7 +332,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/private.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/private.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/private.list"
     interval: 86400
 
   microsoft-cn:
@@ -340,7 +340,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/microsoft-cn.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/microsoft-cn.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/microsoft-cn.list"
     interval: 86400
 
   apple-cn:
@@ -348,7 +348,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/apple-cn.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/apple-cn.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/apple-cn.list"
     interval: 86400
 
   google-cn:
@@ -356,7 +356,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/google-cn.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/google-cn.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/google-cn.list"
     interval: 86400
 
   games-cn:
@@ -364,7 +364,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/games-cn.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/games-cn.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/games-cn.list"
     interval: 86400
 
   netflix:
@@ -372,7 +372,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/netflix.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/netflix.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/netflix.list"
     interval: 86400
 
   disney:
@@ -380,7 +380,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/disney.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/disney.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/disney.list"
     interval: 86400
 
   max:
@@ -388,7 +388,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/max.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/max.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/max.list"
     interval: 86400
 
   primevideo:
@@ -396,7 +396,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/primevideo.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/primevideo.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/primevideo.list"
     interval: 86400
 
   appletv:
@@ -404,7 +404,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/appletv.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/appletv.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/appletv.list"
     interval: 86400
 
   youtube:
@@ -412,7 +412,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/youtube.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/youtube.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/youtube.list"
     interval: 86400
 
   tiktok:
@@ -420,7 +420,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/tiktok.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/tiktok.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/tiktok.list"
     interval: 86400
 
   bilibili:
@@ -428,7 +428,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/bilibili.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/bilibili.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/bilibili.list"
     interval: 86400
 
   ai:
@@ -436,7 +436,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/ai.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/ai.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/ai.list"
     interval: 86400
 
   networktest:
@@ -444,7 +444,7 @@ rule-providers:
     behavior: classical
     format: text
     path: ./rules/networktest.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/networktest.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/networktest.list"
     interval: 86400
 
   proxy:
@@ -452,7 +452,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/proxy.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/proxy.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/proxy.list"
     interval: 86400
 
   cn:
@@ -460,7 +460,7 @@ rule-providers:
     behavior: domain
     format: text
     path: ./rules/cn.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/cn.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/cn.list"
     interval: 86400
 
   netflixip:
@@ -468,7 +468,7 @@ rule-providers:
     behavior: ipcidr
     format: text
     path: ./rules/netflixip.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/netflixip.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/netflixip.list"
     interval: 86400
 
   telegramip:
@@ -476,7 +476,7 @@ rule-providers:
     behavior: ipcidr
     format: text
     path: ./rules/telegramip.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/telegramip.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/telegramip.list"
     interval: 86400
 
   privateip:
@@ -484,7 +484,7 @@ rule-providers:
     behavior: ipcidr
     format: text
     path: ./rules/privateip.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/privateip.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/privateip.list"
     interval: 86400
 
   cnip:
@@ -492,7 +492,7 @@ rule-providers:
     behavior: ipcidr
     format: text
     path: ./rules/cnip.list
-    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/cnip.list"
+    url: "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash-ruleset/cnip.list"
     interval: 86400
 
 rules:
@@ -550,7 +550,8 @@ rules:
     { "tag": "🛑 广告拦截", "type": "selector", "outbounds": ["REJECT"] },
     { "tag": "🎯 全球直连", "type": "selector", "outbounds": ["DIRECT"] },
     { "tag": "REJECT", "type": "block" },
-    { "tag": "DIRECT", "type": "direct" }
+    { "tag": "DIRECT", "type": "direct" },
+    { "tag": "PROXY", "type": "urltest", "tolerance": 50, "providers": [ "🛫 我的机场" ], "includes": [ "(?i)港|hk|hongkong|hong kong" ] }
   ],
   "route": {
     "rules": [
@@ -584,184 +585,184 @@ rules:
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/ads.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/ads.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/ads.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "applications",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/applications.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/applications.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/applications.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "private",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/private.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/private.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/private.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "microsoft-cn",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/microsoft-cn.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/microsoft-cn.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/microsoft-cn.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "apple-cn",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/apple-cn.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/apple-cn.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/apple-cn.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "google-cn",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/google-cn.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/google-cn.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/google-cn.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "games-cn",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/games-cn.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/games-cn.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/games-cn.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "netflix",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/netflix.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflix.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/netflix.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "disney",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/disney.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/disney.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/disney.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "max",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/max.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/max.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/max.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "primevideo",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/primevideo.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/primevideo.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/primevideo.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "appletv",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/appletv.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/appletv.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/appletv.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "youtube",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/youtube.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/youtube.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/youtube.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "tiktok",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/tiktok.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/tiktok.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/tiktok.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "bilibili",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/bilibili.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/bilibili.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/bilibili.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "ai",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/ai.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/ai.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/ai.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "networktest",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/networktest.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/networktest.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/networktest.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "proxy",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/proxy.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/proxy.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/proxy.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "cn",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/cn.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/cn.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/cn.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "netflixip",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/netflixip.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflixip.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/netflixip.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "telegramip",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/telegramip.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/telegramip.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/telegramip.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "privateip",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/privateip.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/privateip.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/privateip.srs",
+        "download_detour": "PROXY"
       },
       {
         "tag": "cnip",
         "type": "remote",
         "format": "binary",
         "path": "./ruleset/cnip.srs",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/cnip.srs",
-        "download_detour": "DIRECT"
+        "url": "https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/cnip.srs",
+        "download_detour": "PROXY"
       }
     ]
   }
