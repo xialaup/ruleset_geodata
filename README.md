@@ -515,8 +515,8 @@ rules:
   - RULE-SET,networktest,📈 网络测试
   - RULE-SET,proxy,🪜 代理域名
   - RULE-SET,cn,🔗 直连域名
-  - RULE-SET,netflixip,🎥 奈飞视频
-  - RULE-SET,telegramip,📲 电报消息
+  - RULE-SET,netflixip,🎥 奈飞视频,no-resolve
+  - RULE-SET,telegramip,📲 电报消息,no-resolve
   - RULE-SET,privateip,🔒 私有网络,no-resolve
   - RULE-SET,cnip,🇨🇳 国内 IP
 ```
@@ -574,9 +574,9 @@ rules:
       { "rule_set": [ "networktest" ], "outbound": "📈 网络测试" },
       { "rule_set": [ "proxy" ], "outbound": "🪜 代理域名" },
       { "rule_set": [ "cn" ], "outbound": "🔗 直连域名" },
-      { "rule_set": [ "netflixip" ], "outbound": "🎥 奈飞视频" },
-      { "rule_set": [ "telegramip" ], "outbound": "📲 电报消息" },
-      { "rule_set": [ "privateip" ], "outbound": "🔒 私有网络" },
+      { "rule_set": [ "netflixip" ], "outbound": "🎥 奈飞视频", "skip_resolve": true },
+      { "rule_set": [ "telegramip" ], "outbound": "📲 电报消息", "skip_resolve": true },
+      { "rule_set": [ "privateip" ], "outbound": "🔒 私有网络", "skip_resolve": true },
       { "rule_set": [ "cnip" ], "outbound": "🇨🇳 国内 IP" }
     ],
     "rule_set": [
