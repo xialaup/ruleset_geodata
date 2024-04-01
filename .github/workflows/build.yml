@@ -744,7 +744,6 @@ jobs:
           chmod +x bm7.sh && ./bm7.sh
           rm -rf bm7* sing-box ./rules/
           cp -f * ../../sing-box-ruleset
-          rm -rf ../../tmp*
 
       - name: Generate `clash` geodata-fakeip-user.yaml
         run: |
@@ -963,6 +962,7 @@ jobs:
             }
           }
           EOF
+          rm -rf ./tmp*
 
       - name: Generate `sing-box` geodata-dns-lite.json
         run: |
