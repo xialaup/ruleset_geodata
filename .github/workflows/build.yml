@@ -970,7 +970,7 @@ jobs:
 
       - name: Generate `sing-box` ruleset-dns.json
         run: |
-          sed 's/geosite/rule_set' ./sing-box-config/geodata-dns.json > ./sing-box-config/ruleset-dns.json
+          sed 's/geosite/rule_set/' ./sing-box-config/geodata-dns.json > ./sing-box-config/ruleset-dns.json
 
       - name: Generate `sing-box` ruleset-dns-lite.json
         run: |
