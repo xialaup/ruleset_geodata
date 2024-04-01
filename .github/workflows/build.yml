@@ -796,7 +796,7 @@ jobs:
 
       - name: Generate `clash` geodata-fakeip-user-lite.yaml
         run: |
-          sed -e 's/geosite.dat/geosite-lite.dat/' -e "s/'geosite:ads': rcode:\/\/refused//" ./clash-config/geodata-fakeip-user.yaml > ./clash-config/geodata-fakeip-user-lite.yaml
+          sed 's/geosite.dat/geosite-lite.dat/' ./clash-config/geodata-fakeip-user.yaml > ./clash-config/geodata-fakeip-user-lite.yaml
 
       - name: Generate `clash` geodata-fakeip-user-lite-noprocess.yaml
         run: |
@@ -852,7 +852,7 @@ jobs:
 
       - name: Generate `clash` geodata-redirhost-user-lite.yaml
         run: |
-          sed -e 's/geosite.dat/geosite-lite.dat/' -e "s/'geosite:ads': rcode:\/\/refused//" ./clash-config/geodata-redirhost-user.yaml > ./clash-config/geodata-redirhost-user-lite.yaml
+          sed 's/geosite.dat/geosite-lite.dat/' ./clash-config/geodata-redirhost-user.yaml | grep -v 'geosite:ads' > ./clash-config/geodata-redirhost-user-lite.yaml
 
       - name: Generate `clash` geodata-redirhost-user-lite-noprocess.yaml
         run: |
@@ -860,19 +860,15 @@ jobs:
 
       - name: Generate `clash` ruleset-fakeip-user.yaml
         run: |
-          sed '/geodata-mode: true/,/geo-update-interval: 24/d' ./clash-config/geodata-fakeip-user.yaml > ./clash-config/ruleset-fakeip-user.yaml
+          sed '/geodata-mode: true/,/geo-update-interval: 24/d' ./clash-config/geodata-fakeip-user.yaml | sed '/^$/N;/\n$/D' > ./clash-config/ruleset-fakeip-user.yaml
 
       - name: Generate `clash` ruleset-fakeip-user-noprocess.yaml
         run: |
           grep -v 'find-process-mode' ./clash-config/ruleset-fakeip-user.yaml > ./clash-config/ruleset-fakeip-user-noprocess.yaml
 
-      - name: Generate `clash` ruleset-fakeip-user-lite.yaml
+      - name: Generate `clash` ruleset-fakeip-user-noprocess.yaml
         run: |
-          sed "s/'rule-set:ads': rcode:\/\/refused//" ./clash-config/ruleset-fakeip-user.yaml > ./clash-config/ruleset-fakeip-user-lite.yaml
-
-      - name: Generate `clash` ruleset-fakeip-user-lite-noprocess.yaml
-        run: |
-          grep -v 'find-process-mode' ./clash-config/ruleset-fakeip-user-lite.yaml > ./clash-config/ruleset-fakeip-user-lite-noprocess.yaml
+          grep -v 'find-process-mode' ./clash-config/ruleset-fakeip-user.yaml > ./clash-config/ruleset-fakeip-user-noprocess.yaml
 
       - name: Generate `clash` ruleset-redirhost-user.yaml
         run: |
@@ -916,7 +912,7 @@ jobs:
 
       - name: Generate `clash` ruleset-redirhost-user-lite.yaml
         run: |
-          sed "s/'rule-set:ads': rcode:\/\/refused//" ./clash-config/ruleset-redirhost-user.yaml > ./clash-config/ruleset-redirhost-user-lite.yaml
+          grep -v 'rule-set:ads' ./clash-config/ruleset-redirhost-user.yaml > ./clash-config/ruleset-redirhost-user-lite.yaml
 
       - name: Generate `clash` ruleset-redirhost-user-lite-noprocess.yaml
         run: |
