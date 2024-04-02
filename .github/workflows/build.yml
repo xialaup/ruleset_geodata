@@ -941,6 +941,7 @@ jobs:
           domain_suffix=$(cat ./tmp/domain_suffix.txt)
           domain=$(cat ./tmp/domain.txt)
           cat <<EOF >> ./sing-box-config/geodata-dns.json
+                { "domain_keyword": ".", "invert": true, "query_type": [ "A", "AAAA" ], "server": [ "dns_alidns", "dns_dnspod" ] },
                 { "domain_suffix": [ ${domain_suffix} ], "query_type": [ "A", "AAAA" ], "server": [ "dns_alidns", "dns_dnspod" ] },
                 { "domain": [ ${domain} ], "query_type": [ "A", "AAAA" ], "server": [ "dns_alidns", "dns_dnspod" ] },
                 { "type": "logical", "mode": "and", "rules": [ { "domain_keyword": [ "time" ], "query_type": [ "A", "AAAA" ] }, { "domain_keyword": [ "com" ], "query_type": [ "A", "AAAA" ] } ], "server": [ "dns_alidns", "dns_dnspod" ] },
