@@ -223,7 +223,6 @@ jobs:
                 { "domain": [ ${domain} ], "query_type": [ "A", "AAAA" ], "server": [ "dns_alidns", "dns_dnspod" ] },
                 { "type": "logical", "mode": "and", "rules": [ { "domain_keyword": [ "time", "ntp", "xbox" ] }, { "domain_keyword": [ "com" ] }, "query_type": [ "A", "AAAA" ] ], "server": [ "dns_alidns", "dns_dnspod" ] },
                 { "protocol": [ "stun" ], "query_type": [ "A", "AAAA" ], "server": [ "dns_alidns", "dns_dnspod" ] },
-                { "geosite": [ "trackerslist" ], "query_type": [ "A", "AAAA" ], "server": [ "dns_alidns", "dns_dnspod" ] },
                 { "geosite": [ "microsoft-cn", "apple-cn", "google-cn", "games-cn", "cn", "private" ], "query_type": [ "A", "AAAA" ], "server": [ "dns_alidns", "dns_dnspod" ] },
                 { "query_type": [ "A", "AAAA" ], "server": "dns_fakeip", "rewrite_ttl": 1 }
               ],
