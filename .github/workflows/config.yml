@@ -2,7 +2,7 @@ name: Generate config
 on:
   workflow_dispatch:
   schedule:
-    - cron: "30 18 * * *"
+    - cron: "0 19 * * *"
   push:
     branches:
       - master
