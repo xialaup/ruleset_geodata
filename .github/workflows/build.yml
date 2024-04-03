@@ -21,7 +21,8 @@ jobs:
           echo "ads=https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/master/anti-ad-clash.yaml" >> $GITHUB_ENV
           echo "private1=https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/private" >> $GITHUB_ENV
           echo "private2=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan.list" >> $GITHUB_ENV
-          echo "private3=https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/all.txt" >> $GITHUB_ENV
+          echo "private3=https://raw.githubusercontent.com/juewuy/ShellCrash/dev/public/fake_ip_filter.list" >> $GITHUB_ENV
+          echo "private4=https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/all.txt" >> $GITHUB_ENV
           echo "microsoft_cn=https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/microsoft" >> $GITHUB_ENV
           echo "apple_cn=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
           echo "google_cn=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
@@ -125,7 +126,8 @@ jobs:
           EOF
           curl -sSL ${private1} | grep -v '#' | sed '/^\s*$/d' >> ./tmp/temp-private.txt
           curl -sSL ${private2} | grep -v '#' | grep 'DOMAIN' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' >> ./tmp/temp-private.txt
-          curl -sSL ${private3} | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' | sed 's/^/full:/' >> ./tmp/temp-private.txt
+          curl -sSL ${private3} | sed -n '/#AdGuard/,/#/p' | grep -v '#' | sed '/^\s*$/d' | sed 's/^/full:/' >>  ./tmp/temp-private.txt
+          curl -sSL ${private4} | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' | sed 's/^/full:/' >> ./tmp/temp-private.txt
           sort --ignore-case -u ./tmp/temp-private.txt > ./community/mydata/private
           # Download clash rule-set_yaml
           cat <<EOF > ./tmp/temp-private.txt
@@ -140,7 +142,8 @@ jobs:
           curl -sSL ${private1} | grep -Ev '#|full:|keyword:|regexp:' | sed '/^\s*$/d' | sed "s/^/  - '+\./" | sed "s/$/'/" >> ./tmp/temp-private.txt
           curl -sSL ${private1} | grep 'full:' | sed "s/^full:/  - '/" | sed "s/$/'/" >> ./tmp/temp-private.txt
           curl -sSL ${private2} | grep -Ev '#|DOMAIN-KEYWORD' | grep 'DOMAIN' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> ./tmp/temp-private.txt
-          curl -sSL ${private3} | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' | sed "s/.*/'&'/" | sed 's/^/  - /' >> ./tmp/temp-private.txt
+          curl -sSL ${private3} | sed -n '/#AdGuard/,/#/p' | grep -v '#' | sed '/^\s*$/d' | sed "s/.*/'&'/" | sed 's/^/  - /' >> ./tmp/temp-private.txt
+          curl -sSL ${private4} | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' | sed "s/.*/'&'/" | sed 's/^/  - /' >> ./tmp/temp-private.txt
           echo 'payload:' > ./clash-ruleset/private.yaml
           sort --ignore-case -u ./tmp/temp-private.txt >> ./clash-ruleset/private.yaml
           # Download clash rule-set_text
@@ -156,7 +159,8 @@ jobs:
           curl -sSL ${private1} | grep -Ev '#|full:|keyword:|regexp:' | sed '/^\s*$/d' | sed 's/^/+\./' >> ./tmp/temp-private.txt
           curl -sSL ${private1} | grep 'full:' | sed 's/^full://' >> ./tmp/temp-private.txt
           curl -sSL ${private2} | grep -Ev '#|DOMAIN-KEYWORD' | grep 'DOMAIN' | sed 's/^DOMAIN,//' | sed 's/^DOMAIN-SUFFIX,/+\./' >> ./tmp/temp-private.txt
-          curl -sSL ${private3} | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' >> ./tmp/temp-private.txt
+          curl -sSL ${private3} | sed -n '/#AdGuard/,/#/p' | grep -v '#' | sed '/^\s*$/d' >> ./tmp/temp-private.txt
+          curl -sSL ${private4} | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' >> ./tmp/temp-private.txt
           sort --ignore-case -u ./tmp/temp-private.txt > ./clash-ruleset/private.list
           # Download sing-box rule_set
           cat <<EOF > ./tmp/temp-private.txt
@@ -172,7 +176,8 @@ jobs:
           curl -sSL ${private1} | grep 'full:' | sed 's/^full:/  - DOMAIN,/' >> ./tmp/temp-private.txt
           curl -sSL ${private1} | grep 'keyword:' | sed 's/^keyword:/  - DOMAIN-KEYWORD,/' >> ./tmp/temp-private.txt
           curl -sSL ${private2} | grep -Ev '#|IP-CIDR' | sed '/^\s*$/d' | sed 's/^/  - /' >> ./tmp/temp-private.txt
-          curl -sSL ${private3} | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' | sed 's/^/  - DOMAIN,/' >> ./tmp/temp-private.txt
+          curl -sSL ${private3} | sed -n '/#AdGuard/,/#/p' | grep -v '#' | sed '/^\s*$/d' | sed 's/^/  - DOMAIN,/' >> ./tmp/temp-private.txt
+          curl -sSL ${private4} | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' | sed 's/^/  - DOMAIN,/' >> ./tmp/temp-private.txt
           echo 'payload:' > ./tmp/sing-box/rules/private/private.yaml
           sort --ignore-case -u ./tmp/temp-private.txt >> ./tmp/sing-box/rules/private/private.yaml
 
