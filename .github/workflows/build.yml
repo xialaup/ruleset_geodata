@@ -21,6 +21,7 @@ jobs:
           echo "ads=https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/master/anti-ad-clash.yaml" >> $GITHUB_ENV
           echo "private1=https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/private" >> $GITHUB_ENV
           echo "private2=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan.list" >> $GITHUB_ENV
+          echo "private3=https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/all.txt" >> $GITHUB_ENV
           echo "microsoft_cn=https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/microsoft" >> $GITHUB_ENV
           echo "apple_cn=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
           echo "google_cn=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
@@ -46,7 +47,6 @@ jobs:
           echo "proxy2=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global.list" >> $GITHUB_ENV
           echo "cn1=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/cn.txt" >> $GITHUB_ENV
           echo "cn2=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax.list" >> $GITHUB_ENV
-          echo "trackerslist=https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/all.txt" >> $GITHUB_ENV
           echo "netflixip=https://raw.githubusercontent.com/DustinWin/geoip/ips/netflix.txt" >> $GITHUB_ENV
           echo "telegramip=https://raw.githubusercontent.com/DustinWin/geoip/ips/telegram.txt" >> $GITHUB_ENV
           echo "privateip=https://raw.githubusercontent.com/DustinWin/geoip/ips/private.txt" >> $GITHUB_ENV
@@ -125,6 +125,7 @@ jobs:
           EOF
           curl -sSL ${private1} | grep -v '#' | sed '/^\s*$/d' >> ./tmp/temp-private.txt
           curl -sSL ${private2} | grep -v '#' | grep 'DOMAIN' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^[ \t]*//' >> ./tmp/temp-private.txt
+          curl -sSL ${private3} | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' | sed 's/^/full:/' >> ./tmp/temp-private.txt
           sort --ignore-case -u ./tmp/temp-private.txt > ./community/mydata/private
           # Download clash rule-set_yaml
           cat <<EOF > ./tmp/temp-private.txt
@@ -139,6 +140,7 @@ jobs:
           curl -sSL ${private1} | grep -Ev '#|full:|keyword:|regexp:' | sed '/^\s*$/d' | sed "s/^/  - '+\./" | sed "s/$/'/" >> ./tmp/temp-private.txt
           curl -sSL ${private1} | grep 'full:' | sed "s/^full:/  - '/" | sed "s/$/'/" >> ./tmp/temp-private.txt
           curl -sSL ${private2} | grep -Ev '#|DOMAIN-KEYWORD' | grep 'DOMAIN' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> ./tmp/temp-private.txt
+          curl -sSL ${private3} | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' | sed "s/.*/'&'/" | sed 's/^/  - /' >> ./tmp/temp-private.txt
           echo 'payload:' > ./clash-ruleset/private.yaml
           sort --ignore-case -u ./tmp/temp-private.txt >> ./clash-ruleset/private.yaml
           # Download clash rule-set_text
@@ -154,6 +156,7 @@ jobs:
           curl -sSL ${private1} | grep -Ev '#|full:|keyword:|regexp:' | sed '/^\s*$/d' | sed 's/^/+\./' >> ./tmp/temp-private.txt
           curl -sSL ${private1} | grep 'full:' | sed 's/^full://' >> ./tmp/temp-private.txt
           curl -sSL ${private2} | grep -Ev '#|DOMAIN-KEYWORD' | grep 'DOMAIN' | sed 's/^DOMAIN,//' | sed 's/^DOMAIN-SUFFIX,/+\./' >> ./tmp/temp-private.txt
+          curl -sSL ${private3} | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' >> ./tmp/temp-private.txt
           sort --ignore-case -u ./tmp/temp-private.txt > ./clash-ruleset/private.list
           # Download sing-box rule_set
           cat <<EOF > ./tmp/temp-private.txt
@@ -169,6 +172,7 @@ jobs:
           curl -sSL ${private1} | grep 'full:' | sed 's/^full:/  - DOMAIN,/' >> ./tmp/temp-private.txt
           curl -sSL ${private1} | grep 'keyword:' | sed 's/^keyword:/  - DOMAIN-KEYWORD,/' >> ./tmp/temp-private.txt
           curl -sSL ${private2} | grep -Ev '#|IP-CIDR' | sed '/^\s*$/d' | sed 's/^/  - /' >> ./tmp/temp-private.txt
+          curl -sSL ${private3} | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' | sed 's/^/  - DOMAIN,/' >> ./tmp/temp-private.txt
           echo 'payload:' > ./tmp/sing-box/rules/private/private.yaml
           sort --ignore-case -u ./tmp/temp-private.txt >> ./tmp/sing-box/rules/private/private.yaml
 
@@ -614,20 +618,6 @@ jobs:
           curl -sSL ${cn2} | grep -Ev '#|IP-CIDR' | sed '/^\s*$/d' | sed 's/^/  - /' >> ./tmp/temp-cn.txt
           echo 'payload:' > ./tmp/sing-box/rules/cn/cn.yaml
           sort --ignore-case -u ./tmp/temp-cn.txt >> ./tmp/sing-box/rules/cn/cn.yaml
-
-      - name: Generate trackerslist
-        run: |
-          mkdir -p ./tmp/sing-box/rules/trackerslist/
-          # Download clash geodata
-          curl -sSL ${trackerslist} | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' | sed 's/^/full:/' > ./community/mydata/trackerslist
-          # Download clash rule-set_yaml
-          echo 'payload:' > ./clash-ruleset/trackerslist.yaml
-          curl -sSL ${trackerslist} | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' | sed "s/.*/'&'/" | sed 's/^/  - /' >> ./clash-ruleset/trackerslist.yaml
-          # Download clash rule-set_text
-          curl -sSL ${trackerslist} | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' > ./clash-ruleset/trackerslist.list
-          # Download sing-box rule_set
-          echo 'payload:' > ./tmp/sing-box/rules/trackerslist/trackerslist.yaml
-          curl -sSL ${trackerslist} | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' | sed 's/^/  - DOMAIN,/' >> ./tmp/sing-box/rules/trackerslist/trackerslist.yaml
 
       - name: Generate netflixip
         run: |
