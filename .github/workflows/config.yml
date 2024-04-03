@@ -150,39 +150,7 @@ jobs:
 
       - name: Generate `clash` ruleset-redirhost-user.yaml
         run: |
-          cat <<EOF > ./clash-config/ruleset-redirhost-user.yaml
-          ipv6: true
-          mode: rule
-          log-level: error
-          allow-lan: true
-          unified-delay: false
-          tcp-concurrent: true
-          external-controller-tls: 127.0.0.1:9090
-          find-process-mode: strict
-          global-client-fingerprint: chrome
-
-          sniffer:
-            enable: true
-            parse-pure-ip: true
-            sniff: {HTTP: {ports: [80, 8080-8880]}, TLS: {ports: [443, 8443]}, QUIC: {ports: [443, 8443]}}
-            skip-domain: ['Mijia Cloud']
-
-          dns:
-            enable: true
-            prefer-h3: true
-            ipv6: true
-            listen: 0.0.0.0:1053
-            fake-ip-range: 198.18.0.1/16
-            enhanced-mode: fake-ip
-            fake-ip-filter: ['+.*']
-            nameserver:
-              - 'https://223.5.5.5/dns-query#h3=true'
-              - https://1.12.12.12/dns-query
-            nameserver-policy:
-              'rule-set:ads': rcode://refused
-              'rule-set:microsoft-cn,apple-cn,google-cn,games-cn,cn,private': ['https://223.5.5.5/dns-query#h3=true', https://1.12.12.12/dns-query]
-              'rule-set:proxy': ['https://1.1.1.1/dns-query#🪜 代理域名&h3=true', 'https://8.8.8.8/dns-query#🪜 代理域名']
-          EOF
+          sed '/geodata-mode: true/,/geo-update-interval: 24/d' ./clash-config/geodata-redirhost-user.yaml | sed '/^$/N;/\n$/D' | sed 's/geosite/rule-set/' > ./clash-config/ruleset-redirhost-user.yaml
 
       - name: Generate `clash` ruleset-redirhost-user-noprocess.yaml
         run: |
@@ -212,16 +180,7 @@ jobs:
                 { "clash_mode": "Direct", "server": [ "dns_alidns", "dns_dnspod" ] },
                 { "clash_mode": "Global", "server": "dns_fakeip", "rewrite_ttl": 1 },
                 { "geosite": [ "ads" ], "server": "dns_block" },
-          EOF
-          curl -sSL ${fake_ip_filter} | grep -Ev '#|\..*\*\.' | grep -E '\*|\+' | sed 's/^\*.//' | sed 's/^+.//' | awk '{printf "\"%s\", ",$1}' | sed 's/, $//' > ./tmp/domain_suffix.txt
-          curl -sSL ${fake_ip_filter} | grep -Ev '#|\..*\*\.' | grep -Ev '\*|\+' | awk '{printf "\"%s\", ",$1}' | sed 's/Mijia/Mijia Cloud/' | sed 's/, $//' > ./tmp/domain.txt
-          domain_suffix=$(cat ./tmp/domain_suffix.txt)
-          domain=$(cat ./tmp/domain.txt)
-          cat <<EOF >> ./sing-box-config/geodata-dns.json
                 { "domain_keyword": ".", "invert": true, "query_type": [ "A", "AAAA" ], "server": [ "dns_alidns", "dns_dnspod" ] },
-                { "domain_suffix": [ ${domain_suffix} ], "query_type": [ "A", "AAAA" ], "server": [ "dns_alidns", "dns_dnspod" ] },
-                { "domain": [ ${domain} ], "query_type": [ "A", "AAAA" ], "server": [ "dns_alidns", "dns_dnspod" ] },
-                { "type": "logical", "mode": "and", "rules": [ { "domain_keyword": [ "time", "ntp", "xbox" ] }, { "domain_keyword": [ "com" ] }, { "query_type": [ "A", "AAAA" ] } ], "server": [ "dns_alidns", "dns_dnspod" ] },
                 { "protocol": [ "stun" ], "query_type": [ "A", "AAAA" ], "server": [ "dns_alidns", "dns_dnspod" ] },
                 { "geosite": [ "microsoft-cn", "apple-cn", "google-cn", "games-cn", "cn", "private" ], "query_type": [ "A", "AAAA" ], "server": [ "dns_alidns", "dns_dnspod" ] },
                 { "query_type": [ "A", "AAAA" ], "server": "dns_fakeip", "rewrite_ttl": 1 }
