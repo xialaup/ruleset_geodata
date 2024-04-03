@@ -61,7 +61,7 @@ jobs:
               - '*'
           EOF
           curl -sSL https://raw.githubusercontent.com/juewuy/ShellCrash/dev/public/fake_ip_filter.list | grep -v '#' | sed '/^\s*$/d' | sed "s/.*/'&'/" | sed 's/^/    - /' >> ./clash-config/geodata-fakeip-user.yaml
-          curl -sSL https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/all.txt | grep 'udp:' | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' | sed 's/^/    - /' >> ./clash-config/geodata-fakeip-user.yaml
+          curl -sSL https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/all.txt | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' | sed 's/^/    - /' >> ./clash-config/geodata-fakeip-user.yaml
           cat <<EOF >> ./clash-config/geodata-fakeip-user.yaml
             nameserver:
               - 'https://223.5.5.5/dns-query#h3=true'
