@@ -75,9 +75,9 @@ jobs:
           go run ./ --datapath=./mydata/ --outputname geosite-all.dat
 
           # Copy `mydata` domains (complete) to `domains`
-          for file in $(ls ./mydata/); do
-            cp -f "${file}" "../domains/${file}.txt"
-          done
+          # for file in $(ls ./mydata/); do
+            # cp -f "${file}" "../domains/${file}.txt"
+          # done
 
           # Generate `clash` geosite-all-lite.dat
           rm -f ./mydata/ads
