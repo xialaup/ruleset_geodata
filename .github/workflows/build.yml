@@ -158,12 +158,13 @@ jobs:
         run: |
           sing_box_version=$(curl -sSL https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | grep 'rc' | head -n 1 | sed 's/.*v//' | sed 's/".*//')
           wget "https://github.com/SagerNet/sing-box/releases/download/v${sing_box_version}/sing-box-${sing_box_version}-linux-amd64v3.tar.gz" -O - | tar -zxf - -C ./tools/
+          cp -f ./tools/sing-box-${sing_box_version}-linux-amd64v3/sing-box ./tools/
 
       - name: Generate `sing-box` rule_set
         run: |
           cd ./tools/
           chmod +x convert.sh && ./convert.sh
-          rm -rf sing-box LICENSE ./rules*
+          rm -rf ./sing-box* LICENSE ./rules*
           cp -f * ../sing-box-ruleset
 
       - name: Release and upload `clash` assets
