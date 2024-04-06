@@ -142,12 +142,12 @@ jobs:
           # Ready for generate `sing-box` rule_set
           for((i=0;i<18;i++)); do
             mkdir -p "./rules/${archs1[i]}/"
-            curl "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1[i]}.list" > "./rules/${archs1[i]}/${archs1[i]}.yaml"
+            curl "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1[i]}.list" > "./tmp/sing-box/rules/${archs1[i]}/${archs1[i]}.yaml"
           done
 
           for((i=0;i<4;i++)); do
             mkdir -p "./rules/${archs2[i]}/"
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs2[i]}.list" > "./rules/${archs2[i]}/${archs2[i]}.yaml"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs2[i]}.list" > "./tmp/sing-box/rules/${archs2[i]}/${archs2[i]}.yaml"
           done
 
       - name: Download and unzip `sing-box core`
