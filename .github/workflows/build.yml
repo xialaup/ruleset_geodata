@@ -145,12 +145,13 @@ jobs:
 
           # Ready for generate `sing-box` rule_set
           for((i=0;i<18;i++)); do
-            mkdir -p "./sing-box-rules/${archs1[i]}/"
-            curl "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1[i]}.list" > "./sing-box-rules/${archs1[i]}/${archs1[i]}.yaml"
+            mkdir -p "./rules/${archs1[i]}/"
+            curl "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1[i]}.list" > "./rules/${archs1[i]}/${archs1[i]}.yaml"
           done
 
+          mkdir -p "./rules/${archs2[i]}/"
           for((i=0;i<4;i++)); do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs2[i]}" > "./clash-ruleset/${archs2[i]}.yaml"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs2[i]}" > "./rules/${archs2[i]}/${archs2[i]}.yaml"
           done
 
       - name: Download and unzip `sing-box core`
@@ -162,34 +163,12 @@ jobs:
 
       - name: Generate `sing-box` rule_set
         run: |
-          curl -sSL https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/master/resouces/bm7.sh | sed '/# 拉文件/,/# 处理文件/d' | sed 's|./rule/Clash/|./sing-box-rules/|' | grep -v 'DOMAIN-SUFFIX,\/\/g' | sed 's/DOMAIN-SUFFIX,\/.\/g/DOMAIN-SUFFIX,\/\/g/' | sed "s/DOMAIN,\/\/g' >>/DOMAIN,\/\/g' >/" > ./tmp/sing-box/bm7.sh
+          curl -sSL https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/master/resouces/bm7.sh | sed '/# 拉文件/,/# 处理文件/d' | sed 's|./rule/Clash/|./rules/|' | grep -v 'DOMAIN-SUFFIX,\/\/g' | sed 's/DOMAIN-SUFFIX,\/.\/g/DOMAIN-SUFFIX,\/\/g/' | sed "s/DOMAIN,\/\/g' >>/DOMAIN,\/\/g' >/" > ./tmp/sing-box/bm7.sh
           cd ./tmp/sing-box/
           chmod +x bm7.sh && ./bm7.sh
-          rm -rf ./bm7* ./sing-box* ./sing-box-rules*
+          rm -rf bm7* sing-box ./rules/
           cp -f * ../../sing-box-ruleset
           rm -rf ../../tmp*
-
-      - name: Commit and push `domains` branch
-        run: |
-          cd ./domains/ || exit 1
-          git init
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git checkout -b domains
-          git add . && git commit -m "域名列表更新于 ${update_version}"
-          git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
-          git push -f -u origin domains
-
-      - name: Commit and push `ips` branch
-        run: |
-          cd ./ips/ || exit 1
-          git init
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git checkout -b ips
-          git add . && git commit -m "IP 段列表更新于 ${update_version}"
-          git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
-          git push -f -u origin ips
 
       - name: Release and upload `clash` assets
         uses: svenstaro/upload-release-action@v2
@@ -261,15 +240,7 @@ jobs:
 
       - name: Purge jsDelivr CDN
         run: |
-          cd ./domains/ || exit 1
-          for file in $(ls); do
-            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@domains/${file}"
-          done
-          cd ../ips/ || exit 1
-          for file in $(ls); do
-            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@ips/${file}"
-          done
-          cd ../clash/ || exit 1
+          cd ./clash/ || exit 1
           for file in $(ls); do
             curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@clash/${file}"
           done
