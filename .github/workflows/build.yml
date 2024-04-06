@@ -113,7 +113,7 @@ jobs:
           # Generate `clash` rule-set (yaml)
           for((i=0;i<17;i++)); do
             echo 'payload:' > "./clash-ruleset/${archs1[i]}.yaml"
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1[i]}.list" | grep -v 'DOMAIN-KEYWORD,|PROCESS-NAME,' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> "./clash-ruleset/${archs1[i]}.yaml"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1[i]}.list" | grep -Ev 'DOMAIN-KEYWORD,|PROCESS-NAME,' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> "./clash-ruleset/${archs1[i]}.yaml"
           done
 
           echo 'payload:' > ./clash-ruleset/applications.yaml
@@ -129,7 +129,7 @@ jobs:
 
           # Generate `clash` rule-set (text)
           for((i=0;i<17;i++)); do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1[i]}.list" | grep -v 'DOMAIN-KEYWORD,|PROCESS-NAME,' | sed 's/^DOMAIN,//' | sed 's/^DOMAIN-SUFFIX,/+\./' > "./clash-ruleset/${archs1[i]}.list"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1[i]}.list" | grep -Ev 'DOMAIN-KEYWORD,|PROCESS-NAME,' | sed 's/^DOMAIN,//' | sed 's/^DOMAIN-SUFFIX,/+\./' > "./clash-ruleset/${archs1[i]}.list"
           done
 
           curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/applications.list > ./clash-ruleset/applications.list
