@@ -140,14 +140,14 @@ jobs:
           done
 
           # Ready for generate `sing-box` rule_set
-          for((i=0;i<18;i++)); do
+          for((i=0;i<17;i++)); do
             mkdir -p "./tmp/sing-box/rules/${archs1[i]}/"
             curl "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1[i]}.list" > "./tmp/sing-box/rules/${archs1[i]}/${archs1[i]}.yaml"
           done
 
           mkdir -p ./tmp/sing-box/rules/applications/ ./tmp/sing-box/rules/networktest/
           curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/applications.list > ./tmp/sing-box/rules/applications/applications.yaml
-          curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/networktest.list > ./tmp/sing-box/rules/applications/networktest.yaml
+          curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/networktest.list > ./tmp/sing-box/rules/networktest/networktest.yaml
 
           for((i=0;i<4;i++)); do
             mkdir -p "./tmp/sing-box/rules/${archs2[i]}/"
