@@ -18,10 +18,6 @@ jobs:
       - name: Set variables
         run: |
           echo "update_version=$(date -d '+8 hours' +%Y-%m-%d)" >> ${GITHUB_ENV}
-          echo "netflixip=https://raw.githubusercontent.com/DustinWin/geoip/ips/netflix.txt" >> $GITHUB_ENV
-          echo "telegramip=https://raw.githubusercontent.com/DustinWin/geoip/ips/telegram.txt" >> $GITHUB_ENV
-          echo "privateip=https://raw.githubusercontent.com/DustinWin/geoip/ips/private.txt" >> $GITHUB_ENV
-          echo "cnip=https://raw.githubusercontent.com/DustinWin/geoip/ips/cn.txt" >> $GITHUB_ENV
         shell: bash
 
       - name: Clone Repository
