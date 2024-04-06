@@ -108,7 +108,7 @@ jobs:
         run: |
           mkdir -p ./clash-ruleset/ ./sing-box-ruleset/
           archs1=(ads private microsoft-cn apple-cn google-cn games-cn netflix disney max primevideo appletv youtube tiktok bilibili ai proxy cn)
-          archs2=(netflix telegram private cn)
+          archs2=(netflixip telegramip privateip cnip)
 
           # Generate `clash` rule-set (yaml)
           for((i=0;i<17;i++)); do
