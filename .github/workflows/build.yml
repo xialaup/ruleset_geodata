@@ -128,7 +128,7 @@ jobs:
 
           for((i=0;i<4;i++)); do
             echo 'payload:' > "./clash-ruleset/${archs2[i]}.yaml"
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs2[i]}" | sed "s/^IP-CIDR,/  - '/" | sed "s/^IP-CIDR6,/  - '/" | sed "s/$/'/" >> "./clash-ruleset/${archs2[i]}.yaml"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs2[i]}.list" | sed "s/^IP-CIDR,/  - '/" | sed "s/^IP-CIDR6,/  - '/" | sed "s/$/'/" >> "./clash-ruleset/${archs2[i]}.yaml"
           done
 
           # Generate `clash` rule-set (text)
@@ -140,7 +140,7 @@ jobs:
           curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/networktest.list > ./clash-ruleset/networktest.list
 
           for((i=0;i<4;i++)); do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs2[i]}" | sed 's/^IP-CIDR,//' | sed 's/^IP-CIDR6,//' > "./clash-ruleset/${archs2[i]}.yaml"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs2[i]}.list" | sed 's/^IP-CIDR,//' | sed 's/^IP-CIDR6,//' > "./clash-ruleset/${archs2[i]}.yaml"
           done
 
           # Ready for generate `sing-box` rule_set
@@ -151,7 +151,7 @@ jobs:
 
           mkdir -p "./rules/${archs2[i]}/"
           for((i=0;i<4;i++)); do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs2[i]}" > "./rules/${archs2[i]}/${archs2[i]}.yaml"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs2[i]}.list" > "./rules/${archs2[i]}/${archs2[i]}.yaml"
           done
 
       - name: Download and unzip `sing-box core`
