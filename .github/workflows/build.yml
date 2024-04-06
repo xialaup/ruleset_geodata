@@ -141,34 +141,30 @@ jobs:
 
           # Ready for generate `sing-box` rule_set
           for((i=0;i<17;i++)); do
-            mkdir -p "./tmp/sing-box/rules/${archs1[i]}/"
-            curl "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1[i]}.list" > "./tmp/sing-box/rules/${archs1[i]}/${archs1[i]}.yaml"
+            mkdir -p "./tools/rules/${archs1[i]}/"
+            curl "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1[i]}.list" > "./tools/rules/${archs1[i]}/${archs1[i]}.yaml"
           done
 
-          mkdir -p ./tmp/sing-box/rules/applications/ ./tmp/sing-box/rules/networktest/
-          curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/applications.list > ./tmp/sing-box/rules/applications/applications.yaml
-          curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/networktest.list > ./tmp/sing-box/rules/networktest/networktest.yaml
+          mkdir -p ./tools/rules/applications/ ./tools/rules/networktest/
+          curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/applications.list > ./tools/rules/applications/applications.yaml
+          curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/networktest.list > ./tools/rules/networktest/networktest.yaml
 
           for((i=0;i<4;i++)); do
-            mkdir -p "./tmp/sing-box/rules/${archs2[i]}/"
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs2[i]}.list" > "./tmp/sing-box/rules/${archs2[i]}/${archs2[i]}.yaml"
+            mkdir -p "./tools/rules/${archs2[i]}/"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs2[i]}.list" > "./tools/rules/${archs2[i]}/${archs2[i]}.yaml"
           done
 
       - name: Download and unzip `sing-box core`
         run: |
-          mkdir -p ./tmp/sing-box/
           sing_box_version=$(curl -sSL https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | grep 'rc' | head -n 1 | sed 's/.*v//' | sed 's/".*//')
-          wget "https://github.com/SagerNet/sing-box/releases/download/v${sing_box_version}/sing-box-${sing_box_version}-linux-amd64v3.tar.gz" -O - | tar -zxf - -C ./tmp/
-          cp -f ./tmp/sing-box-${sing_box_version}-linux-amd64v3/sing-box ./tmp/sing-box/
+          wget "https://github.com/SagerNet/sing-box/releases/download/v${sing_box_version}/sing-box-${sing_box_version}-linux-amd64v3.tar.gz" -O - | tar -zxf - -C ./tools/
 
       - name: Generate `sing-box` rule_set
         run: |
-          curl -sSL https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/master/resouces/bm7.sh | sed '/# 拉文件/,/# 处理文件/d' | sed 's|./rule/Clash/|./rules/|' | grep -v 'DOMAIN-SUFFIX,\/\/g' | sed 's/DOMAIN-SUFFIX,\/.\/g/DOMAIN-SUFFIX,\/\/g/' | sed "s/DOMAIN,\/\/g' >>/DOMAIN,\/\/g' >/" > ./tmp/sing-box/bm7.sh
-          cd ./tmp/sing-box/
-          chmod +x bm7.sh && ./bm7.sh
-          rm -rf bm7* sing-box ./rules/
-          cp -f * ../../sing-box-ruleset
-          rm -rf ../../tmp*
+          cd ./tools/
+          chmod +x convert.sh && ./convert.sh
+          rm -rf sing-box LICENSE ./rules*
+          cp -f * ../sing-box-ruleset
 
       - name: Release and upload `clash` assets
         uses: svenstaro/upload-release-action@v2
