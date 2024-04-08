@@ -33,7 +33,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: DustinWin/geoip
-          fetch-depth: 0
           path: geoip
 
       - name: Setup Go
