@@ -68,8 +68,8 @@ jobs:
 
           # Generate `clash` geosite.dat
           rm -f ./mydata/*
-          for lists in ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn networktest proxy cn; do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${lists}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./mydata/${lists}"
+          for archs in ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn networktest proxy cn; do
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./mydata/${archs}"
           done
           go run ./ --datapath=./mydata/ --outputname geosite.dat
 
@@ -105,8 +105,6 @@ jobs:
 
       - name: Generate `clash` rule-set
         run: |
-          domains_list=$(curl -sSL https://api.github.com/repos/DustinWin/domain-list-custom/releases/latest | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//')
-          ips_list=$(curl -sSL https://api.github.com/repos/DustinWin/geoip/releases/tags/ips | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//')
           mkdir -p ./clash-ruleset/ ./sing-box-ruleset/
 
           # Generate `clash` rule-set (yaml)
