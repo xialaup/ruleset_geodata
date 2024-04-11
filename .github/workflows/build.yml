@@ -58,8 +58,8 @@ jobs:
           mkdir -p ./community/mydata/ ./tmp/
 
           # Generate `clash` geosite-all.dat
-          list=(${domains_list})
-          for ((i = 0; i < ${list[@]}; i++)); do
+          list=("${domains_list}")
+          for ((i = 0; i < ${#list[@]}; i++)); do
             curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${list[i]}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./community/mydata/${list[i]}"
           done
           cd ./community/
@@ -111,8 +111,8 @@ jobs:
           mkdir -p ./clash-ruleset/ ./sing-box-ruleset/
 
           # Generate `clash` rule-set (yaml)
-          list=(${domains_list})
-          for ((i = 0; i < ${list[@]}; i++)); do
+          list=("${domains_list}")
+          for ((i = 0; i < ${#list[@]}; i++)); do
             echo 'payload:' > "./clash-ruleset/${list[i]}.yaml"
             curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${list[i]}.list" | grep -Ev 'DOMAIN-KEYWORD,|PROCESS-NAME,' | sed '/^\s*$/d' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> "./clash-ruleset/${list[i]}.yaml"
           done
@@ -123,29 +123,29 @@ jobs:
           echo 'payload:' > ./clash-ruleset/networktest.yaml
           curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/networktest.list | sed 's/^/  - /' >> ./clash-ruleset/networktest.yaml
 
-          list=(${ips_list})
-          for ((i = 0; i < ${list[@]}; i++)); do
+          list=("${ips_list}")
+          for ((i = 0; i < ${#list[@]}; i++)); do
             echo 'payload:' > "./clash-ruleset/${list}.yaml"
             curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${list[i]}.list" | sed "s/^IP-CIDR,/  - '/" | sed "s/^IP-CIDR6,/  - '/" | sed "s/$/'/" >> "./clash-ruleset/${list[i]}.yaml"
           done
 
           # Generate `clash` rule-set (text)
-          list=(${domains_list})
-          for ((i = 0; i < ${list[@]}; i++)); do
+          list=("${domains_list}")
+          for ((i = 0; i < ${#list[@]}; i++)); do
             curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${list[i]}.list" | grep -Ev 'DOMAIN-KEYWORD,|PROCESS-NAME,' | sed '/^\s*$/d' | sed 's/^DOMAIN,//' | sed 's/^DOMAIN-SUFFIX,/+\./' > "./clash-ruleset/${list[i]}.list"
           done
 
           curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/applications.list > ./clash-ruleset/applications.list
           curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/networktest.list > ./clash-ruleset/networktest.list
 
-          list=(${ips_list})
-          for ((i = 0; i < ${list[@]}; i++)); do
+          list=("${ips_list}")
+          for ((i = 0; i < ${#list[@]}; i++)); do
             curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${list[i]}.list" | sed 's/^IP-CIDR,//' | sed 's/^IP-CIDR6,//' > "./clash-ruleset/${list[i]}.list"
           done
 
           # Ready for generate `sing-box` rule_set
-          list=(${domains_list})
-          for ((i = 0; i < ${list[@]}; i++)); do
+          list=("${domains_list}")
+          for ((i = 0; i < ${#list[@]}; i++)); do
             mkdir -p "./tools/rules/${list[i]}/"
             curl "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${list[i]}.list" > "./tools/rules/${list[i]}/${list[i]}.yaml"
           done
@@ -154,8 +154,8 @@ jobs:
           curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/applications.list > ./tools/rules/applications/applications.yaml
           curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/networktest.list > ./tools/rules/networktest/networktest.yaml
 
-          list=(${ips_list})
-          for ((i = 0; i < ${list[@]}; i++)); do
+          list=("${ips_list}")
+          for ((i = 0; i < ${#list[@]}; i++)); do
             mkdir -p "./tools/rules/${list[i]}/"
             curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${list[i]}.list" > "./tools/rules/${list[i]}/${list[i]}.yaml"
           done
