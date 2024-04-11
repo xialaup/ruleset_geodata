@@ -18,11 +18,6 @@ jobs:
       - name: Set variables
         run: |
           echo "update_version=$(date -d '+8 hours' +%Y-%m-%d)" >> ${GITHUB_ENV}
-          echo "update_version=$(date -d '+8 hours' +%Y-%m-%d)" >> ${GITHUB_ENV}
-          domains_list=$(curl -sSL https://api.github.com/repos/DustinWin/domain-list-custom/releases/latest | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//')
-          echo "domains_list=${domains_list}" >> ${GITHUB_ENV}
-          ips_list=$(curl -sSL https://api.github.com/repos/DustinWin/geoip/releases/tags/ips | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//')
-          echo "ips_list=${ips_list}" >> ${GITHUB_ENV}
         shell: bash
 
       - name: Clone Repository
@@ -57,8 +52,26 @@ jobs:
       - name: Generate `clash` geodata
         run: |
           mkdir -p ./community/mydata/
+          for archs in ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn networktest netflix disney max primevideo appletv youtube tiktok bilibili ai proxy cn; do
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN-SUFFIX,//' > "./community/mydata/${archs}"
+          done
+          cd ./community/
+          go run ./ --datapath=./mydata/ --outputname geosite-all.dat
 
-          
+          # Generate `clash` geosite-all-lite.dat
+          rm -f ./mydata/ads
+          go run ./ --datapath=./mydata/ --outputname geosite-all-lite.dat
+
+          # Generate `clash` geosite.dat
+          rm -f ./mydata/*
+          for archs in ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn networktest proxy cn; do
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./mydata/${archs}"
+          done
+          go run ./ --datapath=./mydata/ --outputname geosite.dat
+
+          # Generate `clash` geosite-lite.dat
+          rm -f ./mydata/ads
+          go run ./ --datapath=./mydata/ --outputname geosite-lite.dat
 
       - name: Generate `sing-box` geodata
         run: |
@@ -89,11 +102,13 @@ jobs:
       - name: Generate `clash` rule-set
         run: |
           mkdir -p ./clash-ruleset/ ./sing-box-ruleset/
+          archs1=(ads private microsoft-cn apple-cn google-cn games-cn netflix disney max primevideo appletv youtube tiktok bilibili ai proxy cn)
+          archs2=(netflixip telegramip privateip cnip)
 
           # Generate `clash` rule-set (yaml)
-          for archs in ${domains_list}; do
-            echo 'payload:' > "./clash-ruleset/${archs}.yaml"
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | grep -Ev 'DOMAIN-KEYWORD,|PROCESS-NAME,' | sed '/^\s*$/d' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> "./clash-ruleset/${archs}.yaml"
+          for archs in ${archs1}; do
+            echo 'payload:' > "./clash-ruleset/${archs1}.yaml"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1}.list" | grep -Ev 'DOMAIN-KEYWORD,|PROCESS-NAME,' | sed '/^\s*$/d' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> "./clash-ruleset/${archs1}.yaml"
           done
 
           echo 'payload:' > ./clash-ruleset/applications.yaml
@@ -102,9 +117,9 @@ jobs:
           echo 'payload:' > ./clash-ruleset/networktest.yaml
           curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/networktest.list | sed 's/^/  - /' >> ./clash-ruleset/networktest.yaml
 
-          for archs in ${ips_list}; do
-            echo 'payload:' > "./clash-ruleset/${archs}.yaml"
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs}.list" | sed "s/^IP-CIDR,/  - '/" | sed "s/^IP-CIDR6,/  - '/" | sed "s/$/'/" >> "./clash-ruleset/${archs}.yaml"
+          for archs in ${archs2}; do
+            echo 'payload:' > "./clash-ruleset/${archs2}.yaml"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs2}.list" | sed "s/^IP-CIDR,/  - '/" | sed "s/^IP-CIDR6,/  - '/" | sed "s/$/'/" >> "./clash-ruleset/${archs2}.yaml"
           done
 
           # Generate `clash` rule-set (text)
