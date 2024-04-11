@@ -17,10 +17,6 @@ jobs:
     steps:
       - name: Set variables
         run: |
-          domains_list=$(curl -sSL https://api.github.com/repos/DustinWin/domain-list-custom/releases/latest | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//')
-          echo "domains_list=${domains_list}" >> ${GITHUB_ENV}
-          ips_list=$(curl -sSL https://api.github.com/repos/DustinWin/geoip/releases/tags/ips | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//')
-          echo "ips_list=${ips_list}" >> ${GITHUB_ENV}
           echo "update_version=$(date -d '+8 hours' +%Y-%m-%d)" >> ${GITHUB_ENV}
         shell: bash
 
@@ -55,10 +51,13 @@ jobs:
 
       - name: Generate `clash` geodata
         run: |
-          mkdir -p ./community/mydata/
+          mkdir -p ./community/mydata/ ./tmp/
+
+          curl -sSL https://api.github.com/repos/DustinWin/domain-list-custom/releases/latest | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//' > ./tmp/domains_list.txt
+          curl -sSL https://api.github.com/repos/DustinWin/geoip/releases/tags/ips | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//' > ./tmp/ips_list.txt
 
           # Generate `clash` geosite-all.dat
-          for archs in $(ls ${domains_list}); do
+          for archs in $(cat ./tmp/domains_list.txt); do
             curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./community/mydata/${archs}"
           done
           cd ./community/
@@ -110,7 +109,7 @@ jobs:
           mkdir -p ./clash-ruleset/ ./sing-box-ruleset/
 
           # Generate `clash` rule-set (yaml)
-          for archs in $(ls ${domains_list}); do
+          for archs in $(cat ./tmp/domains_list.txt); do
             echo 'payload:' > "./clash-ruleset/${archs}.yaml"
             curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | grep -Ev 'DOMAIN-KEYWORD,|PROCESS-NAME,' | sed '/^\s*$/d' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> "./clash-ruleset/${archs}.yaml"
           done
@@ -121,25 +120,25 @@ jobs:
           echo 'payload:' > ./clash-ruleset/networktest.yaml
           curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/networktest.list | sed 's/^/  - /' >> ./clash-ruleset/networktest.yaml
 
-          for archs in $(ls ${ips_list}); do
+          for archs in $(cat ./tmp/ips_list.txt); do
             echo 'payload:' > "./clash-ruleset/${archs}.yaml"
             curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs}.list" | sed "s/^IP-CIDR,/  - '/" | sed "s/^IP-CIDR6,/  - '/" | sed "s/$/'/" >> "./clash-ruleset/${archs}.yaml"
           done
 
           # Generate `clash` rule-set (text)
-          for archs in $(ls ${domains_list}); do
+          for archs in $(cat ./tmp/domains_list.txt); do
             curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | grep -Ev 'DOMAIN-KEYWORD,|PROCESS-NAME,' | sed '/^\s*$/d' | sed 's/^DOMAIN,//' | sed 's/^DOMAIN-SUFFIX,/+\./' > "./clash-ruleset/${archs}.list"
           done
 
           curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/applications.list > ./clash-ruleset/applications.list
           curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/networktest.list > ./clash-ruleset/networktest.list
 
-          for archs in $(ls ${ips_list}); do
+          for archs in $(cat ./tmp/ips_list.txt); do
             curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs}.list" | sed 's/^IP-CIDR,//' | sed 's/^IP-CIDR6,//' > "./clash-ruleset/${archs}.list"
           done
 
           # Ready for generate `sing-box` rule_set
-          for archs in $(ls ${domains_list}); do
+          for archs in $(cat ./tmp/domains_list.txt); do
             mkdir -p "./tools/rules/${archs}/"
             curl "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" > "./tools/rules/${archs}/${archs}.yaml"
           done
@@ -148,7 +147,7 @@ jobs:
           curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/applications.list > ./tools/rules/applications/applications.yaml
           curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/networktest.list > ./tools/rules/networktest/networktest.yaml
 
-          for archs in $(ls ${ips_list}); do
+          for archs in $(cat ./tmp/ips_list.txt); do
             mkdir -p "./tools/rules/${archs}/"
             curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${archs}.list" > "./tools/rules/${archs}/${archs}.yaml"
           done
@@ -165,6 +164,7 @@ jobs:
           chmod +x convert.sh && ./convert.sh
           rm -rf ./sing-box* LICENSE ./rules*
           cp -f ./*.json ./*.srs ../sing-box-ruleset/
+          rm -rf ./tmp*
 
       - name: Release and upload `clash` assets
         uses: svenstaro/upload-release-action@v2
