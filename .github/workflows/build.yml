@@ -52,8 +52,8 @@ jobs:
       - name: Generate `clash` geodata
         run: |
           mkdir -p ./community/mydata/
-          archs1=(ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn networktest netflix disney max primevideo appletv youtube tiktok bilibili ai proxy cn)
-          archs2=(ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn networktest proxy cn)
+          archs1=(ads private microsoft-cn apple-cn google-cn games-cn fakeip-filter networktest netflix disney max primevideo appletv youtube tiktok bilibili ai proxy cn)
+          archs2=(ads private microsoft-cn apple-cn google-cn games-cn fakeip-filter networktest proxy cn)
           for ((i = 0; i < 19; i++)); do
             curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1[i]}.list" | sed 's/^DOMAIN-SUFFIX,//' > "./community/mydata/${archs1[i]}"
           done
@@ -104,7 +104,7 @@ jobs:
       - name: Generate `clash` rule-set
         run: |
           mkdir -p ./clash-ruleset/ ./sing-box-ruleset/
-          domains=(ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn netflix disney max primevideo appletv youtube tiktok bilibili ai proxy cn)
+          domains=(ads private microsoft-cn apple-cn google-cn games-cn fakeip-filter netflix disney max primevideo appletv youtube tiktok bilibili ai proxy cn)
           ips=(netflixip telegramip privateip cnip)
 
           # Generate `clash` rule-set (yaml)
