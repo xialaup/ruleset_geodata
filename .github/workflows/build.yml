@@ -18,10 +18,6 @@ jobs:
       - name: Set variables
         run: |
           echo "update_version=$(date -d '+8 hours' +%Y-%m-%d)" >> ${GITHUB_ENV}
-          domains_list=$(curl -sSL https://api.github.com/repos/DustinWin/domain-list-custom/releases/latest | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//')
-          echo "domains_list=${domains_list}" >> ${GITHUB_ENV}
-          ips_list=$(curl -sSL https://api.github.com/repos/DustinWin/geoip/releases/tags/ips | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//')
-          echo "ips_list=${ips_list}" >> ${GITHUB_ENV}
         shell: bash
 
       - name: Clone Repository
@@ -53,12 +49,18 @@ jobs:
           go-version: '1.22'
           cache-dependency-path: ./community/go.sum
 
+      - name: Get domains and ips
+        run: |
+          mkdir -p ./tmp/
+          curl -sSL https://api.github.com/repos/DustinWin/domain-list-custom/releases/latest | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//' > ./tmp/domains-list.txt
+          curl -sSL https://api.github.com/repos/DustinWin/geoip/releases/tags/ips | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//' > ./tmp/ips-list.txt
+
       - name: Generate `clash` geodata
         run: |
-          mkdir -p ./community/mydata/ ./tmp/
+          mkdir -p ./community/mydata/
 
           # Generate `clash` geosite-all.dat
-          for archs in ${domains_list}; do
+          for archs in $(cat ./tmp/domains-list.txt); do
             curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN-SUFFIX,//' > "./tmp/${archs}.txt"
             cat "./tmp/${archs}.txt" > "./community/mydata/${archs}"
           done
@@ -72,8 +74,7 @@ jobs:
           # Generate `clash` geosite.dat
           rm -f ./mydata/*
           for archs in ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn networktest proxy cn; do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "../tmp/${archs}.txt"
-            cat "../tmp/${archs}.txt" > "./mydata/${archs}"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./mydata/${archs}"
           done
           go run ./ --datapath=./mydata/ --outputname geosite.dat
 
