@@ -18,6 +18,10 @@ jobs:
       - name: Set variables
         run: |
           echo "update_version=$(date -d '+8 hours' +%Y-%m-%d)" >> ${GITHUB_ENV}
+          domains_list=$(curl -sSL https://api.github.com/repos/DustinWin/domain-list-custom/releases/latest | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//')
+          echo "domains_list=${domains_list}" >> ${GITHUB_ENV}
+          ips_list=$(curl -sSL https://api.github.com/repos/DustinWin/geoip/releases/tags/ips | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//')
+          echo "ips_list=${ips_list}" >> ${GITHUB_ENV}
         shell: bash
 
       - name: Clone Repository
@@ -53,12 +57,10 @@ jobs:
         run: |
           mkdir -p ./community/mydata/ ./tmp/
 
-          curl -sSL https://api.github.com/repos/DustinWin/domain-list-custom/releases/latest | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//' > ./tmp/domains_list.txt
-          curl -sSL https://api.github.com/repos/DustinWin/geoip/releases/tags/ips | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//' > ./tmp/ips_list.txt
-
           # Generate `clash` geosite-all.dat
-          for archs in ./tmp/domains_list.txt; do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./community/mydata/${archs}"
+          list=(${domains_list})
+          for ((i = 0; i < ${list[@]}; i++)); do
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${list[i]}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./community/mydata/${list[i]}"
           done
           cd ./community/
           go run ./ --datapath=./mydata/ --outputname geosite-all.dat
