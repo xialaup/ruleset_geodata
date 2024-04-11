@@ -57,7 +57,7 @@ jobs:
 
           # Generate `clash` geosite-all.dat
           for archs in ${domains_list}; do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./community/mydata/${archs}"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN-SUFFIX,//' > "./community/mydata/${archs}"
           done
           cd ./community/
           go run ./ --datapath=./mydata/ --outputname geosite-all.dat
