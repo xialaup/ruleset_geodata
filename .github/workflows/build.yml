@@ -53,11 +53,12 @@ jobs:
         run: |
           domains_list=$(curl -sSL https://api.github.com/repos/DustinWin/domain-list-custom/releases/latest | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//')
           ips_list=$(curl -sSL https://api.github.com/repos/DustinWin/geoip/releases/tags/ips | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//')
-          mkdir -p ./community/mydata/ ./tmp/
+          mkdir -p ./community/mydata/
 
           # Generate `clash` geosite-all.dat
           for archs in ${domains_list}; do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./community/mydata/${archs}.txt"
+            mkdir -p ./${archs}/
+            # curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./community/mydata/${archs}"
           done
           cd ./community/
           go run ./ --datapath=./mydata/ --outputname geosite-all.dat
@@ -69,7 +70,7 @@ jobs:
           # Generate `clash` geosite.dat
           rm -f ./mydata/*
           for archs in ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn networktest proxy cn; do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./mydata/${archs}.txt"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./mydata/${archs}"
           done
           go run ./ --datapath=./mydata/ --outputname geosite.dat
 
@@ -165,7 +166,6 @@ jobs:
           chmod +x convert.sh && ./convert.sh
           rm -rf ./sing-box* LICENSE ./rules*
           cp -f ./*.json ./*.srs ../sing-box-ruleset/
-          rm -rf ./tmp*
 
       - name: Release and upload `clash` assets
         uses: svenstaro/upload-release-action@v2
