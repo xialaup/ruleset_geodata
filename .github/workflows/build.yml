@@ -55,7 +55,7 @@ jobs:
           domains-all=(ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn networktest netflix disney max primevideo appletv youtube tiktok bilibili ai proxy cn)
           domains=(ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn networktest proxy cn)
           for archs in ${domains-all}; do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN-SUFFIX,//' > "./community/mydata/${archs}"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${domains-all}.list" | sed 's/^DOMAIN-SUFFIX,//' > "./community/mydata/${domains-all}"
           done
           cd ./community/
           go run ./ --datapath=./mydata/ --outputname geosite-all.dat
@@ -67,7 +67,7 @@ jobs:
           # Generate `clash` geosite.dat
           rm -f ./mydata/*
           for archs in ${domains}; do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./mydata/${archs}"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${domains}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./mydata/${domains}"
           done
           go run ./ --datapath=./mydata/ --outputname geosite.dat
 
