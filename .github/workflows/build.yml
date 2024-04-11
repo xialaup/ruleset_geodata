@@ -17,9 +17,9 @@ jobs:
     steps:
       - name: Set variables
         run: |
-          domains_list=$(curl -sSL https://api.github.com/repos/DustinWin/domain-list-custom/releases/latest | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//')
+          domains_list=ls $(curl -sSL https://api.github.com/repos/DustinWin/domain-list-custom/releases/latest | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//')
           echo "domains_list=${domains_list}" >> ${GITHUB_ENV}
-          ips_list=$(curl -sSL https://api.github.com/repos/DustinWin/geoip/releases/tags/ips | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//')
+          ips_list=ls $(curl -sSL https://api.github.com/repos/DustinWin/geoip/releases/tags/ips | grep 'browser_download_url' | sed 's/.*\///' | sed 's/\..*//')
           echo "ips_list=${ips_list}" >> ${GITHUB_ENV}
           echo "update_version=$(date -d '+8 hours' +%Y-%m-%d)" >> ${GITHUB_ENV}
         shell: bash
