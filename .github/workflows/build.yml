@@ -56,8 +56,8 @@ jobs:
           mkdir -p ./community/mydata/
 
           # Generate `clash` geosite-all.dat
-          for archs in ${domains_list}; do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./community/mydata/${archs}"
+          for archs1 in ${domains_list}; do
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./community/mydata/${archs1}"
           done
           cd ./community/
           go run ./ --datapath=./mydata/ --outputname geosite-all.dat
