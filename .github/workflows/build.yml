@@ -59,7 +59,8 @@ jobs:
 
           # Generate `clash` geosite-all.dat
           for archs in ${domains_list}; do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN-SUFFIX,//' > "./community/mydata/${archs}"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN-SUFFIX,//' > "./tmp/${archs}.txt"
+            cat "./tmp/${archs}.txt" > "./community/mydata/${archs}"
           done
           cd ./community/
           go run ./ --datapath=./mydata/ --outputname geosite-all.dat
@@ -71,7 +72,8 @@ jobs:
           # Generate `clash` geosite.dat
           rm -f ./mydata/*
           for archs in ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn networktest proxy cn; do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./mydata/${archs}"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "../tmp/${archs}.txt"
+            cat "../tmp/${archs}.txt" > "./mydata/${archs}"
           done
           go run ./ --datapath=./mydata/ --outputname geosite.dat
 
