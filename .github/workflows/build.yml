@@ -70,8 +70,8 @@ jobs:
           # Generate `clash` geosite.dat
           rm -f ./mydata/*
           for archs1 in ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn networktest proxy cn; do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./tmp/${archs1}.txt"
-            cat "./tmp/${archs1}.txt" > "./community/mydata/${archs1}"
+            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "../tmp/${archs1}.txt"
+            cat "../tmp/${archs1}.txt" > "./mydata/${archs1}"
           done
           go run ./ --datapath=./mydata/ --outputname geosite.dat
 
