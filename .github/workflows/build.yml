@@ -52,7 +52,9 @@ jobs:
       - name: Generate `clash` geodata
         run: |
           mkdir -p ./community/mydata/
-          for archs in ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn networktest netflix disney max primevideo appletv youtube tiktok bilibili ai proxy cn; do
+          domains-all=(ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn networktest netflix disney max primevideo appletv youtube tiktok bilibili ai proxy cn)
+          domains=(ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn networktest proxy cn)
+          for archs in ${domains-all}; do
             curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN-SUFFIX,//' > "./community/mydata/${archs}"
           done
           cd ./community/
@@ -64,7 +66,7 @@ jobs:
 
           # Generate `clash` geosite.dat
           rm -f ./mydata/*
-          for archs in ads private fakeip-filter microsoft-cn apple-cn google-cn games-cn networktest proxy cn; do
+          for archs in ${domains}; do
             curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./mydata/${archs}"
           done
           go run ./ --datapath=./mydata/ --outputname geosite.dat
