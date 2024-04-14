@@ -4,15 +4,19 @@ for ((i = 0; i < ${#list[@]}; i++)); do
 	mkdir -p ${list[i]}
 	# 归类
 	# android package
-	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' | grep -v '\.exe' | grep -v '/' | grep '\.')" ]; then
-		cat ./rules/${list[i]}/${list[i]}.yaml |  grep 'PROCESS-NAME,' | grep -v '\.exe' | grep -v '/' | grep '\.' | sed 's/^PROCESS-NAME,//g' > ${list[i]}/package.json
+	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' | grep -v '\.exe' | grep '\.')" ]; then
+		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' | grep -v '\.exe' | grep '\.' | sed 's/^PROCESS-NAME,//g' > ${list[i]}/package.json
 	fi
 	# process name
-	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' | grep -v '/' | grep -v '\.')" ]; then
-		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' | grep -v '/' | grep -v '\.' | sed 's/^PROCESS-NAME,//g' > ${list[i]}/process.json
+	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' | grep -v '\.')" ]; then
+		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' | grep -v '\.' | sed 's/^PROCESS-NAME,//g' > ${list[i]}/process.json
 	fi
-	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' |  grep '\.exe')" ]; then
-		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' |  grep '\.exe' | sed 's/^PROCESS-NAME,//g' >> ${list[i]}/process.json
+	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' | grep '\.exe')" ]; then
+		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' | grep '\.exe' | sed 's/^PROCESS-NAME,//g' >> ${list[i]}/process.json
+	fi
+ 	# process path
+	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-PATH,')" ]; then
+		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-PATH,' | sed 's/^PROCESS-PATH,//g' > ${list[i]}/path.json
 	fi
 	# domain
 	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'DOMAIN-SUFFIX,')" ]; then
@@ -45,6 +49,13 @@ for ((i = 0; i < ${#list[@]}; i++)); do
 		sed -i 's/$/",/g' ${list[i]}/process.json
 		sed -i '1s/^/      "process_name": [\n/g' ${list[i]}/process.json
 		sed -i '$ s/,$/\n      ],/g' ${list[i]}/process.json
+	fi
+ 	# process path
+	if [ -f "${list[i]}/path.json" ]; then
+		sed -i 's/^/        "/g' ${list[i]}/path.json
+		sed -i 's/$/",/g' ${list[i]}/path.json
+		sed -i '1s/^/      "process_path": [\n/g' ${list[i]}/path.json
+		sed -i '$ s/,$/\n      ],/g' ${list[i]}/path.json
 	fi
 	# domain
 	if [ -f "${list[i]}/domain.json" ]; then
