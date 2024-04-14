@@ -115,7 +115,7 @@ jobs:
           done
 
           echo 'payload:' > ./clash-ruleset/fakeip-filter.yaml
-          curl -sSL ${download_url}/applications.list | sed 's/^/  - /' >> ./clash-ruleset/fakeip-filter.yaml
+          curl -sSL ${download_url}/fakeip-filter.list | sed 's/^/  - /' >> ./clash-ruleset/fakeip-filter.yaml
 
           echo 'payload:' > ./clash-ruleset/applications.yaml
           curl -sSL ${download_url}/applications.list | sed 's/^/  - /' >> ./clash-ruleset/applications.yaml
