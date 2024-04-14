@@ -8,6 +8,7 @@ on:
       - master
     paths-ignore:
       - "**/README.md"
+      - "**/convert.sh"
       - ".github/workflows/delete-old-workflows.yml"
       - ".github/workflows/build.yml"
 
