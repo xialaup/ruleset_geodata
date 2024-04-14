@@ -24,6 +24,9 @@ for ((i = 0; i < ${#list[@]}; i++)); do
 	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'DOMAIN-KEYWORD,')" ]; then
 		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'DOMAIN-KEYWORD,' | sed 's/^DOMAIN-KEYWORD,//g' > ${list[i]}/keyword.json
 	fi
+ 	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'DOMAIN-REGEX,')" ]; then
+		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'DOMAIN-REGEX,' | sed 's/^DOMAIN-REGEX,//g' > ${list[i]}/regex.json
+	fi
 	# ipcidr
 	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'IP-CIDR')" ]; then
 		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'IP-CIDR' | sed 's/^IP-CIDR,//g' | sed 's/^IP-CIDR6,//g' > ${list[i]}/ipcidr.json
@@ -61,6 +64,12 @@ for ((i = 0; i < ${#list[@]}; i++)); do
 		sed -i 's/$/",/g' ${list[i]}/keyword.json
 		sed -i '1s/^/      "domain_keyword": [\n/g' ${list[i]}/keyword.json
 		sed -i '$ s/,$/\n      ],/g' ${list[i]}/keyword.json
+	fi
+ 	if [ -f "${list[i]}/regex.json" ]; then
+		sed -i 's/^/        "/g' ${list[i]}/regex.json
+		sed -i 's/$/",/g' ${list[i]}/regex.json
+		sed -i '1s/^/      "domain_regex": [\n/g' ${list[i]}/regex.json
+		sed -i '$ s/,$/\n      ],/g' ${list[i]}/regex.json
 	fi
 	# ipcidr
 	if [ -f "${list[i]}/ipcidr.json" ]; then
