@@ -4,22 +4,22 @@ for ((i = 0; i < ${#list[@]}; i++)); do
 	mkdir -p ${list[i]}
 	# 归类
 	# android package
-	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS' | grep -v '\.exe' | grep -v '/' | grep '\.')" ]; then
-		cat ./rules/${list[i]}/${list[i]}.yaml |  grep 'PROCESS' | grep -v '\.exe' | grep -v '/' | grep '\.' | sed 's/^PROCESS-NAME,//g' > ${list[i]}/package.json
+	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' | grep -v '\.exe' | grep -v '/' | grep '\.')" ]; then
+		cat ./rules/${list[i]}/${list[i]}.yaml |  grep 'PROCESS-NAME,' | grep -v '\.exe' | grep -v '/' | grep '\.' | sed 's/^PROCESS-NAME,//g' > ${list[i]}/package.json
 	fi
 	# process name
-	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS' | grep -v '/' | grep -v '\.')" ]; then
-		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS' | grep -v '/' | grep -v '\.' | sed 's/^PROCESS-NAME,//g' > ${list[i]}/process.json
+	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' | grep -v '/' | grep -v '\.')" ]; then
+		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' | grep -v '/' | grep -v '\.' | sed 's/^PROCESS-NAME,//g' > ${list[i]}/process.json
 	fi
-	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS' |  grep '\.exe')" ]; then
-		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS' |  grep '\.exe' | sed 's/^PROCESS-NAME,//g' >> ${list[i]}/process.json
+	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' |  grep '\.exe')" ]; then
+		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' |  grep '\.exe' | sed 's/^PROCESS-NAME,//g' >> ${list[i]}/process.json
 	fi
 	# domain
 	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'DOMAIN-SUFFIX,')" ]; then
 		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'DOMAIN-SUFFIX,' | sed 's/^DOMAIN-SUFFIX,//g' > ${list[i]}/suffix.json
 	fi
 	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'DOMAIN,')" ]; then
-		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'DOMAIN,' | sed 's/^DOMAIN,//g' >> ${list[i]}/domain.json
+		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'DOMAIN,' | sed 's/^DOMAIN,//g' > ${list[i]}/domain.json
 	fi
 	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'DOMAIN-KEYWORD,')" ]; then
 		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'DOMAIN-KEYWORD,' | sed 's/^DOMAIN-KEYWORD,//g' > ${list[i]}/keyword.json
