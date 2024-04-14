@@ -145,7 +145,7 @@ jobs:
           # Ready for generate `sing-box` rule_set
           for ((i = 0; i < 17; i++)); do
             mkdir -p "./tools/rules/${domains[i]}/"
-            curl "${domains_download_url}/${domains[i]}.list" > "./tools/rules/${domains[i]}/${domains[i]}.yaml"
+            curl "${domains_download_url}/${domains[i]}.list" | grep -v 'DOMAIN-REGEX,' | sed '/^\s*$/d' > "./tools/rules/${domains[i]}/${domains[i]}.yaml"
           done
 
           mkdir -p ./tools/rules/fakeip-filter/ ./tools/rules/applications/ ./tools/rules/networktest/
