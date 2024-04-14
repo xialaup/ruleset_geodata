@@ -18,6 +18,7 @@ jobs:
       - name: Set variables
         run: |
           echo "update_version=$(date -d '+8 hours' +%Y-%m-%d)" >> ${GITHUB_ENV}
+          echo "download_url=https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains" >> ${GITHUB_ENV}
         shell: bash
 
       - name: Clone Repository
@@ -55,7 +56,7 @@ jobs:
           archs1=(ads private microsoft-cn apple-cn google-cn games-cn fakeip-filter networktest netflix disney max primevideo appletv youtube tiktok bilibili ai proxy cn)
           archs2=(ads private microsoft-cn apple-cn google-cn games-cn fakeip-filter networktest proxy cn)
           for ((i = 0; i < 19; i++)); do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs1[i]}.list" | sed 's/^DOMAIN-SUFFIX,//' > "./community/mydata/${archs1[i]}"
+            curl -sSL "${download_url}/${archs1[i]}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^DOMAIN-REGEX,/regexp:/' > "./community/mydata/${archs1[i]}"
           done
           cd ./community/
           go run ./ --datapath=./mydata/ --outputname geosite-all.dat
@@ -67,7 +68,7 @@ jobs:
           # Generate `clash` geosite.dat
           rm -f ./mydata/*
           for ((i = 0; i < 10; i++)); do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${archs2[i]}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' > "./mydata/${archs2[i]}"
+            curl -sSL "${download_url}/${archs2[i]}.list" | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^DOMAIN-REGEX,/regexp:/' > "./mydata/${archs2[i]}"
           done
           go run ./ --datapath=./mydata/ --outputname geosite.dat
 
@@ -104,20 +105,23 @@ jobs:
       - name: Generate `clash` rule-set
         run: |
           mkdir -p ./clash-ruleset/ ./sing-box-ruleset/
-          domains=(ads private microsoft-cn apple-cn google-cn games-cn fakeip-filter netflix disney max primevideo appletv youtube tiktok bilibili ai proxy cn)
+          domains=(ads private microsoft-cn apple-cn google-cn games-cn netflix disney max primevideo appletv youtube tiktok bilibili ai proxy cn)
           ips=(netflixip telegramip privateip cnip)
 
           # Generate `clash` rule-set (yaml)
-          for ((i = 0; i < 18; i++)); do
+          for ((i = 0; i < 17; i++)); do
             echo 'payload:' > "./clash-ruleset/${domains[i]}.yaml"
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${domains[i]}.list" | grep -Ev 'DOMAIN-KEYWORD,|PROCESS-NAME,' | sed '/^\s*$/d' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> "./clash-ruleset/${domains[i]}.yaml"
+            curl -sSL "${download_url}/${domains[i]}.list" | grep -Ev 'DOMAIN-KEYWORD,|DOMAIN-REGEX,|PROCESS-NAME,' | sed '/^\s*$/d' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> "./clash-ruleset/${domains[i]}.yaml"
           done
 
+          echo 'payload:' > ./clash-ruleset/fakeip-filter.yaml
+          curl -sSL ${download_url}/applications.list | sed 's/^/  - /' >> ./clash-ruleset/fakeip-filter.yaml
+
           echo 'payload:' > ./clash-ruleset/applications.yaml
-          curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/applications.list | sed 's/^/  - /' >> ./clash-ruleset/applications.yaml
+          curl -sSL ${download_url}/applications.list | sed 's/^/  - /' >> ./clash-ruleset/applications.yaml
 
           echo 'payload:' > ./clash-ruleset/networktest.yaml
-          curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/networktest.list | sed 's/^/  - /' >> ./clash-ruleset/networktest.yaml
+          curl -sSL ${download_url}/networktest.list | sed 's/^/  - /' >> ./clash-ruleset/networktest.yaml
 
           for ((i = 0; i < 4; i++)); do
             echo 'payload:' > "./clash-ruleset/${ips[i]}.yaml"
@@ -125,26 +129,28 @@ jobs:
           done
 
           # Generate `clash` rule-set (text)
-          for ((i = 0; i < 18; i++)); do
-            curl -sSL "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${domains[i]}.list" | grep -Ev 'DOMAIN-KEYWORD,|PROCESS-NAME,' | sed '/^\s*$/d' | sed 's/^DOMAIN,//' | sed 's/^DOMAIN-SUFFIX,/+\./' > "./clash-ruleset/${domains[i]}.list"
+          for ((i = 0; i < 17; i++)); do
+            curl -sSL "${download_url}/${domains[i]}.list" | grep -Ev 'DOMAIN-KEYWORD,|DOMAIN-REGEX,|PROCESS-NAME,' | sed '/^\s*$/d' | sed 's/^DOMAIN,//' | sed 's/^DOMAIN-SUFFIX,/+\./' > "./clash-ruleset/${domains[i]}.list"
           done
 
-          curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/applications.list > ./clash-ruleset/applications.list
-          curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/networktest.list > ./clash-ruleset/networktest.list
+          curl -sSL ${download_url}/fakeip-filter.list > ./clash-ruleset/fakeip-filter.list
+          curl -sSL ${download_url}/applications.list > ./clash-ruleset/applications.list
+          curl -sSL ${download_url}/networktest.list > ./clash-ruleset/networktest.list
 
           for ((i = 0; i < 4; i++)); do
             curl -sSL "https://raw.githubusercontent.com/DustinWin/geoip/ips/${ips[i]}.list" | sed 's/^IP-CIDR,//' | sed 's/^IP-CIDR6,//' > "./clash-ruleset/${ips[i]}.list"
           done
 
           # Ready for generate `sing-box` rule_set
-          for ((i = 0; i < 18; i++)); do
+          for ((i = 0; i < 17; i++)); do
             mkdir -p "./tools/rules/${domains[i]}/"
-            curl "https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/${domains[i]}.list" > "./tools/rules/${domains[i]}/${domains[i]}.yaml"
+            curl "${download_url}/${domains[i]}.list" > "./tools/rules/${domains[i]}/${domains[i]}.yaml"
           done
 
-          mkdir -p ./tools/rules/applications/ ./tools/rules/networktest/
-          curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/applications.list > ./tools/rules/applications/applications.yaml
-          curl -sSL https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains/networktest.list > ./tools/rules/networktest/networktest.yaml
+          mkdir -p ./tools/rules/fakeip-filter/ ./tools/rules/applications/ ./tools/rules/networktest/
+          curl -sSL ${download_url}/fakeip-filter.list > ./tools/rules/fakeip-filter/fakeip-filter.yaml
+          curl -sSL ${download_url}/applications.list > ./tools/rules/applications/applications.yaml
+          curl -sSL ${download_url}/networktest.list > ./tools/rules/networktest/networktest.yaml
 
           for ((i = 0; i < 4; i++)); do
             mkdir -p "./tools/rules/${ips[i]}/"
