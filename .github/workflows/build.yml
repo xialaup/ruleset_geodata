@@ -25,12 +25,6 @@ jobs:
       - name: Clone Repository
         uses: actions/checkout@master
 
-      - name: Checkout DustinWin/domain-list-custom
-        uses: actions/checkout@v4
-        with:
-          repository: DustinWin/domain-list-custom
-          path: custom
-
       - name: Checkout v2fly/domain-list-community
         uses: actions/checkout@v4
         with:
@@ -55,7 +49,7 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.22'
-          cache-dependency-path: ./custom/go.sum
+          cache-dependency-path: ./community/go.sum
 
       - name: Generate `clash` geodata
         run: |
@@ -65,27 +59,27 @@ jobs:
           for ((i = 0; i < 19; i++)); do
             curl -sSL "${domains_download_url}/${archs1[i]}.list" | grep -Ev 'PROCESS-NAME,|PROCESS-PATH,' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^DOMAIN-REGEX,/regexp:/' > "./community/mydata/${archs1[i]}"
           done
-          cd ./custom/
-          go run ./ --datapath=../community/mydata/ --outputname geosite-all.dat
+          cd ./community/
+          go run ./ --datapath=./mydata/ --outputname geosite-all.dat
 
           # Generate `clash` geosite-all-lite.dat
-          rm -f ../community/mydata/ads
-          go run ./ --datapath=../community/mydata/ --outputname geosite-all-lite.dat
+          rm -f ./mydata/ads
+          go run ./ --datapath=./mydata/ --outputname geosite-all-lite.dat
 
           # Generate `clash` geosite.dat
-          rm -f ../community/mydata/*
+          rm -f ./mydata/*
           for ((i = 0; i < 10; i++)); do
-            curl -sSL "${domains_download_url}/${archs2[i]}.list" | grep -Ev 'PROCESS-NAME,|PROCESS-PATH,' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^DOMAIN-REGEX,/regexp:/' > "../community/mydata/${archs2[i]}"
+            curl -sSL "${domains_download_url}/${archs2[i]}.list" | grep -Ev 'PROCESS-NAME,|PROCESS-PATH,' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^DOMAIN-REGEX,/regexp:/' > "./mydata/${archs2[i]}"
           done
-          go run ./ --datapath=../community/mydata/ --outputname geosite.dat
+          go run ./ --datapath=./mydata/ --outputname geosite.dat
 
           # Generate `clash` geosite-lite.dat
-          rm -f ../community/mydata/ads
-          go run ./ --datapath=../community/mydata/ --outputname geosite-lite.dat
+          rm -f ./mydata/ads
+          go run ./ --datapath=./mydata/ --outputname geosite-lite.dat
 
       - name: Generate `sing-box` geodata
         run: |
-          cd ./custom/ || exit 1
+          cd ./community/ || exit 1
           go install -trimpath -ldflags="-s -w -buildid=" github.com/metacubex/geo/cmd/geo@master
           for file in $(ls *.dat | sed 's/\..*//'); do
             geo convert site -i v2ray -o sing -f "./${file}.db" "./${file}.dat"
@@ -94,14 +88,14 @@ jobs:
       - name: Move `clash` and `sing-box` geodata files
         run: |
           mkdir -p ./clash/ ./sing-box/
-          cd ./custom/ || exit 1
+          cd ./community/ || exit 1
           for file in $(ls *.dat); do
             install -Dp "./${file}" ../clash/
           done
           for file in $(ls *.db); do
             install -Dp "./${file}" ../sing-box/
           done
-          rm -rf ../custom* ../community*
+          rm -rf ../community*
 
       - name: Get geoip relative files
         run: |
