@@ -85,23 +85,24 @@ jobs:
             geo convert site -i v2ray -o sing -f "./${file}.db" "./${file}.dat"
           done
 
-      - name: Move `clash` and `sing-box` geodata files
+      - name: Get geoip relative files
         run: |
           mkdir -p ./clash/ ./sing-box/
+          mv -f ./geoip/clash/*.mmdb ./clash/
+          cp -f ./geoip/clash/* ./community/
+          cp -f ./geoip/sing-box/* ./community/
+          rm -rf ./geoip*
+
+      - name: Move `clash` and `sing-box` geodata files
+        run: |
           cd ./community/ || exit 1
-          for file in $(ls *.dat); do
+          for file in $(ls *.dat *.metadb); do
             install -Dp "./${file}" ../clash/
           done
           for file in $(ls *.db); do
             install -Dp "./${file}" ../sing-box/
           done
           rm -rf ../community*
-
-      - name: Get geoip relative files
-        run: |
-          cp -f ./geoip/clash/* ./clash/
-          cp -f ./geoip/sing-box/* ./sing-box/
-          rm -rf ./geoip*
 
       - name: Generate `clash` rule-set
         run: |
