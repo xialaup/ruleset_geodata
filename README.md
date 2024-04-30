@@ -67,7 +67,7 @@
   </tr>
   <tr>
     <td>geosite.dat</td>
-    <td rowspan="2"><code>ads</code>、<code>private</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<code>fakeip-filter</code>、<code>networktest</code>、<code>proxy</code> 和 <code>cn</code></td>
+    <td rowspan="2"><code>ads</code>、<code>private</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<code>fakeip-filter</code>、<code>networktest</code>、<code>ai</code>、<code>proxy</code> 和 <code>cn</code></td>
     <td><a href="https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash/geosite.dat">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash/geosite.dat">点此下载</a></td>
     <td><a href="https://mirror.ghproxy.com/https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash/geosite.dat">点此下载</a></td>
@@ -80,7 +80,7 @@
   </tr>
   <tr>
     <td>geosite-lite.dat</td>
-    <td rowspan="2"><del><code>ads</code></del>、<code>private</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<code>fakeip-filter</code>、<code>networktest</code>、<code>proxy</code> 和 <code>cn</code></td>
+    <td rowspan="2"><del><code>ads</code></del>、<code>private</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<code>fakeip-filter</code>、<code>networktest</code>、<code>ai</code>、<code>proxy</code> 和 <code>cn</code></td>
     <td><a href="https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash/geosite-lite.dat">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash/geosite-lite.dat">点此下载</a></td>
     <td><a href="https://mirror.ghproxy.com/https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash/geosite-lite.dat">点此下载</a></td>
