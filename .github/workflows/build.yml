@@ -55,7 +55,7 @@ jobs:
         run: |
           mkdir -p ./community/mydata/
           archs1=(ads private microsoft-cn apple-cn google-cn games-cn fakeip-filter networktest netflix disney max primevideo appletv youtube tiktok bilibili ai proxy cn)
-          archs2=(ads private microsoft-cn apple-cn google-cn games-cn fakeip-filter networktest proxy cn)
+          archs2=(ads private microsoft-cn apple-cn google-cn games-cn fakeip-filter networktest ai proxy cn)
           for ((i = 0; i < 19; i++)); do
             curl -sSL "${domains_download_url}/${archs1[i]}.list" | grep -Ev 'PROCESS-NAME,|PROCESS-PATH,' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^DOMAIN-REGEX,/regexp:/' > "./community/mydata/${archs1[i]}"
           done
@@ -68,7 +68,7 @@ jobs:
 
           # Generate `clash` geosite.dat
           rm -f ./mydata/*
-          for ((i = 0; i < 10; i++)); do
+          for ((i = 0; i < 11; i++)); do
             curl -sSL "${domains_download_url}/${archs2[i]}.list" | grep -Ev 'PROCESS-NAME,|PROCESS-PATH,' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^DOMAIN-REGEX,/regexp:/' > "./mydata/${archs2[i]}"
           done
           go run ./ --datapath=./mydata/ --outputname geosite.dat
