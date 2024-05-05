@@ -72,7 +72,7 @@ jobs:
           for ((i = 0; i < 10; i++)); do
             curl -sSL "${domains_download_url}/${archs2[i]}.list" | grep -Ev 'DOMAIN-REGEX,|PROCESS-' | sed -e '/^\s*$/d' -e 's/^DOMAIN,/full:/' -e 's/^DOMAIN-SUFFIX,//' -e 's/^DOMAIN-KEYWORD,/keyword:/' > "./mydata/${archs2[i]}"
           done
-          curl -sSL "${domains_download_url}/fakeip-filter.list" | grep -v 'PROCESS-' | sed -e '/^\s*$/d' -e 's/^DOMAIN,/full:/' -e 's/^DOMAIN-SUFFIX,//' -e 's/^DOMAIN-KEYWORD,/keyword:/' -e 's/^DOMAIN-REGEX,/regexp:/' > ./community/mydata/fakeip-filter
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | grep -v 'PROCESS-' | sed -e '/^\s*$/d' -e 's/^DOMAIN,/full:/' -e 's/^DOMAIN-SUFFIX,//' -e 's/^DOMAIN-KEYWORD,/keyword:/' -e 's/^DOMAIN-REGEX,/regexp:/' > ./mydata/fakeip-filter
           go run ./ --datapath=./mydata/ --outputname geosite.dat
 
           # Generate `clash` geosite-lite.dat
