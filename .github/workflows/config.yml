@@ -62,7 +62,7 @@ jobs:
             fake-ip-filter:
               - '*'
           EOF
-          curl -sSL https://raw.githubusercontent.com/juewuy/ShellCrash/dev/public/fake_ip_filter.list | grep -v '#' | sed '/^\s*$/d' | sed "s/.*/'&'/" | sed 's/^/    - /' >> ./clash-config/geodata-fakeip-user.yaml
+          curl -sSL https://raw.githubusercontent.com/juewuy/ShellCrash/dev/public/fake_ip_filter.list | grep -v '#' | sed -e '/^\s*$/d' -e "s/.*/'&'/" -e 's/^/    - /' >> ./clash-config/geodata-fakeip-user.yaml
           curl -sSL https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/all.txt | grep -i '\.[A-Z]' | awk -F'[/:]' '{print $4}' | sed 's/^/    - /' >> ./clash-config/geodata-fakeip-user.yaml
           cat <<EOF >> ./clash-config/geodata-fakeip-user.yaml
             nameserver:
@@ -141,7 +141,7 @@ jobs:
 
       - name: Generate `clash` ruleset-fakeip-user.yaml
         run: |
-          sed '/geodata-mode: true/,/geo-update-interval: 24/d' ./clash-config/geodata-fakeip-user.yaml | sed '/^$/N;/\n$/D' > ./clash-config/ruleset-fakeip-user.yaml
+          sed -e '/geodata-mode: true/,/geo-update-interval: 24/d' -e '/^$/N;/\n$/D' ./clash-config/geodata-fakeip-user.yaml > ./clash-config/ruleset-fakeip-user.yaml
 
       - name: Generate `clash` ruleset-fakeip-user-noprocess.yaml
         run: |
@@ -153,7 +153,7 @@ jobs:
 
       - name: Generate `clash` ruleset-redirhost-user.yaml
         run: |
-          sed '/geodata-mode: true/,/geo-update-interval: 24/d' ./clash-config/geodata-redirhost-user.yaml | sed '/^$/N;/\n$/D' | sed 's/geosite/rule-set/' > ./clash-config/ruleset-redirhost-user.yaml
+          sed -e '/geodata-mode: true/,/geo-update-interval: 24/d' -e '/^$/N;/\n$/D' -e 's/geosite/rule-set/' ./clash-config/geodata-redirhost-user.yaml > ./clash-config/ruleset-redirhost-user.yaml
 
       - name: Generate `clash` ruleset-redirhost-user-noprocess.yaml
         run: |
