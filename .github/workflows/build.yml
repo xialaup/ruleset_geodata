@@ -115,7 +115,7 @@ jobs:
           # Generate `clash` rule-set (yaml)
           for ((i = 0; i < 17; i++)); do
             echo 'payload:' > "./clash-ruleset/${domains[i]}.yaml"
-            curl -sSL "${domains_download_url}/${domains[i]}.list" | grep -Ev 'DOMAIN-KEYWORD,|DOMAIN-REGEX,|PROCESS-' | sed -e '/^\s*$/d' -e "s/^DOMAIN,/  - '/" -e "s/^DOMAIN-SUFFIX,/  - '+\./" -e "s/$/'/" >> "./clash-ruleset/${domains[i]}.yaml"
+            curl -sSL "${domains_download_url}/${domains[i]}.list" | grep -E 'DOMAIN,|DOMAIN-SUFFIX,' | sed -e "s/^DOMAIN,/  - '/" -e "s/^DOMAIN-SUFFIX,/  - '+\./" -e "s/$/'/" >> "./clash-ruleset/${domains[i]}.yaml"
           done
 
           echo 'payload:' > ./clash-ruleset/fakeip-filter.yaml
@@ -129,12 +129,12 @@ jobs:
 
           for ((i = 0; i < 4; i++)); do
             echo 'payload:' > "./clash-ruleset/${ips[i]}.yaml"
-            curl -sSL "${ips_download_url}/${ips[i]}.list" | grep -v 'IP-ASN,' | sed -e '/^\s*$/d' -e "s/^IP-CIDR,/  - '/" -e "s/^IP-CIDR6,/  - '/" -e "s/$/'/" >> "./clash-ruleset/${ips[i]}.yaml"
+            curl -sSL "${ips_download_url}/${ips[i]}.list" | grep 'IP-CIDR' | sed -e "s/^IP-CIDR,/  - '/" -e "s/^IP-CIDR6,/  - '/" -e "s/$/'/" >> "./clash-ruleset/${ips[i]}.yaml"
           done
 
           # Generate `clash` rule-set (text)
           for ((i = 0; i < 17; i++)); do
-            curl -sSL "${domains_download_url}/${domains[i]}.list" | grep -Ev 'DOMAIN-KEYWORD,|DOMAIN-REGEX,|PROCESS-' | sed -e '/^\s*$/d' -e 's/^DOMAIN,//' -e 's/^DOMAIN-SUFFIX,/+\./' > "./clash-ruleset/${domains[i]}.list"
+            curl -sSL "${domains_download_url}/${domains[i]}.list" | grep -E 'DOMAIN,|DOMAIN-SUFFIX,' | sed -e 's/^DOMAIN,//' -e 's/^DOMAIN-SUFFIX,/+\./' > "./clash-ruleset/${domains[i]}.list"
           done
 
           curl -sSL ${domains_download_url}/fakeip-filter.list > ./clash-ruleset/fakeip-filter.list
@@ -142,7 +142,7 @@ jobs:
           curl -sSL ${domains_download_url}/networktest.list > ./clash-ruleset/networktest.list
 
           for ((i = 0; i < 4; i++)); do
-            curl -sSL "${ips_download_url}/${ips[i]}.list" | grep -v 'IP-ASN,' | sed -e '/^\s*$/d' -e 's/^IP-CIDR,//' -e 's/^IP-CIDR6,//' > "./clash-ruleset/${ips[i]}.list"
+            curl -sSL "${ips_download_url}/${ips[i]}.list" | grep 'IP-CIDR' | sed -e 's/^IP-CIDR,//' -e 's/^IP-CIDR6,//' > "./clash-ruleset/${ips[i]}.list"
           done
 
           # Ready for generate `sing-box` rule_set
@@ -158,7 +158,7 @@ jobs:
 
           for ((i = 0; i < 4; i++)); do
             mkdir -p "./tools/rules/${ips[i]}/"
-            curl -sSL "${ips_download_url}/${ips[i]}.list"| grep -v 'IP-ASN,' | sed '/^\s*$/d' > "./tools/rules/${ips[i]}/${ips[i]}.yaml"
+            curl -sSL "${ips_download_url}/${ips[i]}.list"| grep 'IP-CIDR' > "./tools/rules/${ips[i]}/${ips[i]}.yaml"
           done
 
       - name: Download and unzip `sing-box core`
