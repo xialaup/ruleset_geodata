@@ -57,7 +57,7 @@ jobs:
           archs1=(fakeip-filter ads private microsoft-cn apple-cn google-cn games-cn ai networktest netflix disney max primevideo appletv youtube tiktok bilibili proxy cn)
           archs2=(fakeip-filter ads private microsoft-cn apple-cn google-cn games-cn ai networktest proxy cn)
           for ((i = 0; i < 19; i++)); do
-            curl -sSL "${domains_download_url}/${archs1[i]}.list" | grep -Ev 'PROCESS-NAME,|PROCESS-PATH,' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^DOMAIN-REGEX,/regexp:/' > "./community/mydata/${archs1[i]}"
+            curl -sSL "${domains_download_url}/${archs1[i]}.list" | grep -Ev 'DOMAIN-REGEX,|PROCESS-' | sed -e '/^\s*$/d' -e 's/^DOMAIN,/full:/' -e 's/^DOMAIN-SUFFIX,//' -e 's/^DOMAIN-KEYWORD,/keyword:/' > "./community/mydata/${archs1[i]}"
           done
           cd ./community/
           go run ./ --datapath=./mydata/ --outputname geosite-all.dat
@@ -69,7 +69,7 @@ jobs:
           # Generate `clash` geosite.dat
           rm -f ./mydata/*
           for ((i = 0; i < 11; i++)); do
-            curl -sSL "${domains_download_url}/${archs2[i]}.list" | grep -Ev 'PROCESS-NAME,|PROCESS-PATH,' | sed 's/^DOMAIN,/full:/' | sed 's/^DOMAIN-SUFFIX,//' | sed 's/^DOMAIN-KEYWORD,/keyword:/' | sed 's/^DOMAIN-REGEX,/regexp:/' > "./mydata/${archs2[i]}"
+            curl -sSL "${domains_download_url}/${archs2[i]}.list" | grep -Ev 'DOMAIN-REGEX,|PROCESS-' | sed -e '/^\s*$/d' -e 's/^DOMAIN,/full:/' -e 's/^DOMAIN-SUFFIX,//' -e 's/^DOMAIN-KEYWORD,/keyword:/' > "./mydata/${archs2[i]}"
           done
           go run ./ --datapath=./mydata/ --outputname geosite.dat
 
@@ -113,7 +113,7 @@ jobs:
           # Generate `clash` rule-set (yaml)
           for ((i = 0; i < 17; i++)); do
             echo 'payload:' > "./clash-ruleset/${domains[i]}.yaml"
-            curl -sSL "${domains_download_url}/${domains[i]}.list" | grep -Ev 'DOMAIN-KEYWORD,|DOMAIN-REGEX,|PROCESS-NAME,|PROCESS-PATH,' | sed '/^\s*$/d' | sed "s/^DOMAIN,/  - '/" | sed "s/^DOMAIN-SUFFIX,/  - '+\./" | sed "s/$/'/" >> "./clash-ruleset/${domains[i]}.yaml"
+            curl -sSL "${domains_download_url}/${domains[i]}.list" | grep -Ev 'DOMAIN-KEYWORD,|DOMAIN-REGEX,|PROCESS-' | sed -e '/^\s*$/d' -e "s/^DOMAIN,/  - '/" -e "s/^DOMAIN-SUFFIX,/  - '+\./" -e "s/$/'/" >> "./clash-ruleset/${domains[i]}.yaml"
           done
 
           echo 'payload:' > ./clash-ruleset/fakeip-filter.yaml
@@ -127,12 +127,12 @@ jobs:
 
           for ((i = 0; i < 4; i++)); do
             echo 'payload:' > "./clash-ruleset/${ips[i]}.yaml"
-            curl -sSL "${ips_download_url}/${ips[i]}.list" | sed "s/^IP-CIDR,/  - '/" | sed "s/^IP-CIDR6,/  - '/" | sed "s/$/'/" >> "./clash-ruleset/${ips[i]}.yaml"
+            curl -sSL "${ips_download_url}/${ips[i]}.list" | sed -e "s/^IP-CIDR,/  - '/" -e "s/^IP-CIDR6,/  - '/" -e "s/$/'/" >> "./clash-ruleset/${ips[i]}.yaml"
           done
 
           # Generate `clash` rule-set (text)
           for ((i = 0; i < 17; i++)); do
-            curl -sSL "${domains_download_url}/${domains[i]}.list" | grep -Ev 'DOMAIN-KEYWORD,|DOMAIN-REGEX,|PROCESS-NAME,|PROCESS-PATH,' | sed '/^\s*$/d' | sed 's/^DOMAIN,//' | sed 's/^DOMAIN-SUFFIX,/+\./' > "./clash-ruleset/${domains[i]}.list"
+            curl -sSL "${domains_download_url}/${domains[i]}.list" | grep -Ev 'DOMAIN-KEYWORD,|DOMAIN-REGEX,|PROCESS-' | sed -e '/^\s*$/d' -e 's/^DOMAIN,//' -e 's/^DOMAIN-SUFFIX,/+\./' > "./clash-ruleset/${domains[i]}.list"
           done
 
           curl -sSL ${domains_download_url}/fakeip-filter.list > ./clash-ruleset/fakeip-filter.list
@@ -140,7 +140,7 @@ jobs:
           curl -sSL ${domains_download_url}/networktest.list > ./clash-ruleset/networktest.list
 
           for ((i = 0; i < 4; i++)); do
-            curl -sSL "${ips_download_url}/${ips[i]}.list" | sed 's/^IP-CIDR,//' | sed 's/^IP-CIDR6,//' > "./clash-ruleset/${ips[i]}.list"
+            curl -sSL "${ips_download_url}/${ips[i]}.list" | sed -e 's/^IP-CIDR,//' -e 's/^IP-CIDR6,//' > "./clash-ruleset/${ips[i]}.list"
           done
 
           # Ready for generate `sing-box` rule_set
@@ -161,7 +161,7 @@ jobs:
 
       - name: Download and unzip `sing-box core`
         run: |
-          sing_box_version=$(curl -sSL https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | grep 'rc' | head -n 1 | sed 's/.*v//' | sed 's/".*//')
+          sing_box_version=$(curl -sSL https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | grep 'rc' | head -n 1 | sed -e 's/.*v//' -e 's/".*//')
           wget "https://github.com/SagerNet/sing-box/releases/download/v${sing_box_version}/sing-box-${sing_box_version}-linux-amd64v3.tar.gz" -O - | tar -zxf - -C ./tools/
           cp -f ./tools/sing-box-${sing_box_version}-linux-amd64v3/sing-box ./tools/
 
