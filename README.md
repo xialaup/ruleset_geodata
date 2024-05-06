@@ -180,7 +180,7 @@
   </tr>
   <tr>
     <td>geoip-asn.dat</td>
-    <td rowspan="2"><code>netflix</code>、<code>telegram</code>、<del><code>private</code> 和 <code>cn</code></del></td>
+    <td rowspan="2"><code>netflix</code>、<code>telegram</code>、<del><code>private</code> 和 <code>cn</code></del>，具体可<a href="https://github.com/DustinWin/geoip/blob/master/asn.csv">点此查看</a></td>
     <td><a href="https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash/geoip-asn.dat">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash/geoip-asn.dat">点此下载</a></td>
     <td><a href="https://mirror.ghproxy.com/https://raw.githubusercontent.com/DustinWin/ruleset_geodata/clash/geoip-asn.dat">点此下载</a></td>
