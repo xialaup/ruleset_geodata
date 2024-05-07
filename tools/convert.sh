@@ -14,7 +14,6 @@ for ((i = 0; i < ${#list[@]}; i++)); do
 	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' | grep '\.exe')" ]; then
 		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' | grep '\.exe' | sed 's/^PROCESS-NAME,//' >> ${list[i]}/process.json
 	fi
-	fi
 	# domain
  	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'DOMAIN,')" ]; then
 		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'DOMAIN,' | sed 's/^DOMAIN,//' > ${list[i]}/domain.json
