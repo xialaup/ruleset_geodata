@@ -14,9 +14,6 @@ for ((i = 0; i < ${#list[@]}; i++)); do
 	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' | grep '\.exe')" ]; then
 		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-NAME,' | grep '\.exe' | sed 's/^PROCESS-NAME,//' >> ${list[i]}/process.json
 	fi
- 	# process path
-	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-PATH,')" ]; then
-		cat ./rules/${list[i]}/${list[i]}.yaml | grep 'PROCESS-PATH,' | sed 's/^PROCESS-PATH,//' > ${list[i]}/path.json
 	fi
 	# domain
  	if [ -n "$(cat ./rules/${list[i]}/${list[i]}.yaml | grep 'DOMAIN,')" ]; then
@@ -51,12 +48,6 @@ for ((i = 0; i < ${#list[@]}; i++)); do
 		sed -i '1s/^/      "process_name": [\n/' ${list[i]}/process.json
 		sed -i '$s/,$/\n      ],/' ${list[i]}/process.json
 	fi
- 	# process path
-	if [ -f "${list[i]}/path.json" ]; then
-		sed -i 's/.*/        "&",/' ${list[i]}/path.json
-		sed -i '1s/^/      "process_path": [\n/' ${list[i]}/path.json
-		sed -i '$s/,$/\n      ],/' ${list[i]}/path.json
-	fi
 	# domain
 	if [ -f "${list[i]}/domain.json" ]; then
 		sed -i 's/.*/        "&",/' ${list[i]}/domain.json
@@ -88,10 +79,28 @@ for ((i = 0; i < ${#list[@]}; i++)); do
 		sed -i '$s/,$/\n      ],/' ${list[i]}/ipcidr.json
 	fi
 	# 合并文件
-	cat ${list[i]}/* >> ${list[i]}.json
-	sed -i '1s/^/{\n  "version": 1,\n  "rules": [\n    {\n/' ${list[i]}.json
-	sed -i '$s/,$/\n    }\n  ]\n}/' ${list[i]}.json
-	rm -rf ${list[i]}
- 	# 转成 .srs 格式
+	if [ -f "${list[i]}/package.json" -a -f "${list[i]}/process.json" ]; then
+		mv ${list[i]}/package.json ${list[i]}.json
+		sed -i '$ s/,$/\n    },\n    {/g' ${list[i]}.json
+		cat ${list[i]}/process.json >> ${list[i]}.json
+		rm ${list[i]}/process.json
+	elif [ -f "${list[i]}/package.json" ]; then
+		mv ${list[i]}/package.json ${list[i]}.json
+	elif [ -f "${list[i]}/process.json" ]; then
+		mv ${list[i]}/process.json ${list[i]}.json
+	fi
+
+	if [ "$(ls ${list[i]})" = "" ]; then
+		sed -i '1s/^/{\n  "version": 1,\n  "rules": [\n    {\n/g' ${list[i]}.json
+	elif [ -f "${list[i]}.json" ]; then
+		sed -i '1s/^/{\n  "version": 1,\n  "rules": [\n    {\n/g' ${list[i]}.json
+		sed -i '$ s/,$/\n    },\n    {/g' ${list[i]}.json
+		cat ${list[i]}/* >> ${list[i]}.json
+	else
+		cat ${list[i]}/* >> ${list[i]}.json
+		sed -i '1s/^/{\n  "version": 1,\n  "rules": [\n    {\n/g' ${list[i]}.json
+	fi
+	sed -i '$ s/,$/\n    }\n  ]\n}/g' ${list[i]}.json
+	rm -r ${list[i]}
 	./sing-box rule-set compile ${list[i]}.json -o ${list[i]}.srs
 done
