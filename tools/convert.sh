@@ -79,14 +79,14 @@ for ((i = 0; i < ${#list[@]}; i++)); do
 	fi
 	# 合并文件
 	if [ -f "${list[i]}/package.json" -a -f "${list[i]}/process.json" ]; then
-		mv ${list[i]}/package.json ${list[i]}.json
+		mv -f ${list[i]}/package.json ${list[i]}.json
 		sed -i '$ s/,$/\n    },\n    {/g' ${list[i]}.json
 		cat ${list[i]}/process.json >> ${list[i]}.json
-		rm ${list[i]}/process.json
+		rm -f ${list[i]}/process.json
 	elif [ -f "${list[i]}/package.json" ]; then
-		mv ${list[i]}/package.json ${list[i]}.json
+		mv -f ${list[i]}/package.json ${list[i]}.json
 	elif [ -f "${list[i]}/process.json" ]; then
-		mv ${list[i]}/process.json ${list[i]}.json
+		mv -f ${list[i]}/process.json ${list[i]}.json
 	fi
 
 	if [ "$(ls ${list[i]})" = "" ]; then
@@ -100,6 +100,6 @@ for ((i = 0; i < ${#list[@]}; i++)); do
 		sed -i '1s/^/{\n  "version": 1,\n  "rules": [\n    {\n/g' ${list[i]}.json
 	fi
 	sed -i '$ s/,$/\n    }\n  ]\n}/g' ${list[i]}.json
-	rm -r ${list[i]}
+	rm -rf ${list[i]}
 	./sing-box rule-set compile ${list[i]}.json -o ${list[i]}.srs
 done
