@@ -169,7 +169,7 @@ jobs:
           cd ./tools/
           chmod +x convert.sh && ./convert.sh
           rm -rf ./sing-box* LICENSE ./rules*
-          cp -f ./*.json ./*.srs ../sing-box-ruleset
+          cp -f ./*.json ./*.srs ../sing-box-ruleset/
 
       - name: Release and upload `clash` assets
         uses: svenstaro/upload-release-action@v2
