@@ -49,7 +49,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: ${go_version}
+          go-version: ${{ go_version }}
           cache-dependency-path: ./community/go.sum
 
       - name: Generate `clash` geodata
