@@ -17,8 +17,6 @@ jobs:
     steps:
       - name: Set variables
         run: |
-          go_version=$(curl -sSL https://raw.githubusercontent.com/actions/go-versions/update-versions-manifest-file/versions-manifest.json | grep '"version"' | head -1 | awk -F'"' '{print $4}')
-          echo "go_version=${go_version}" >> ${GITHUB_ENV}
           echo "update_version=$(date -d '+8 hours' +%Y-%m-%d)" >> ${GITHUB_ENV}
           echo "domains_download_url=https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains" >> ${GITHUB_ENV}
           echo "ips_download_url=https://raw.githubusercontent.com/DustinWin/geoip/ips" >> ${GITHUB_ENV}          
@@ -47,10 +45,15 @@ jobs:
           ref: sing-box
           path: geoip/sing-box
 
+      - name: Get `Go` latest version
+        id: go
+        run: |
+          echo version=$(curl -sSL https://raw.githubusercontent.com/actions/go-versions/update-versions-manifest-file/versions-manifest.json | grep '"version"' | head -1 | awk -F'"' '{print $4}') >> $GITHUB_OUTPUT
+
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: ${go_version}
+          go-version: ${{go.outputs.version}}
           cache-dependency-path: ./community/go.sum
 
       - name: Generate `clash` geodata
