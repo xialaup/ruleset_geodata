@@ -17,7 +17,8 @@ jobs:
     steps:
       - name: Set variables
         run: |
-          echo "go_version=$(curl -sSL https://raw.githubusercontent.com/actions/go-versions/update-versions-manifest-file/versions-manifest.json | grep '"version"' | head -1 | awk -F'"' '{print $4}')" >> ${GITHUB_ENV}
+          go_version=$(curl -sSL https://raw.githubusercontent.com/actions/go-versions/update-versions-manifest-file/versions-manifest.json | grep '"version"' | head -1 | awk -F'"' '{print $4}')
+          echo "go_version=${go_version}" >> ${GITHUB_ENV}
           echo "update_version=$(date -d '+8 hours' +%Y-%m-%d)" >> ${GITHUB_ENV}
           echo "domains_download_url=https://raw.githubusercontent.com/DustinWin/domain-list-custom/domains" >> ${GITHUB_ENV}
           echo "ips_download_url=https://raw.githubusercontent.com/DustinWin/geoip/ips" >> ${GITHUB_ENV}          
