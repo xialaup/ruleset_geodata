@@ -57,35 +57,46 @@ jobs:
           archs1=(ads private microsoft-cn apple-cn google-cn games-cn ai networktest netflix disney max primevideo appletv youtube tiktok bilibili proxy cn)
           archs2=(ads private microsoft-cn apple-cn google-cn games-cn ai networktest proxy cn)
           for ((i = 0; i < 18; i++)); do
-            curl -sSL "${domains_download_url}/${archs1[i]}.list" | grep -Ev 'DOMAIN-REGEX,|PROCESS-' | sed -e '/^\s*$/d' -e 's/^DOMAIN,/full:/' -e 's/^DOMAIN-SUFFIX,//' -e 's/^DOMAIN-KEYWORD,/keyword:/' > "./community/mydata/${archs1[i]}"
+            curl -sSL "${domains_download_url}/${archs1[i]}.list" | grep -Ev 'DOMAIN-REGEX,|PROCESS-NAME,' | sed -e '/^\s*$/d' -e 's/^DOMAIN,/full:/' -e 's/^DOMAIN-SUFFIX,//' -e 's/^DOMAIN-KEYWORD,/keyword:/' > "./community/mydata/${archs1[i]}"
           done
-          curl -sSL "${domains_download_url}/fakeip-filter.list" | grep -v 'PROCESS-' | sed -e '/^\s*$/d' -e 's/^DOMAIN,/full:/' -e 's/^DOMAIN-SUFFIX,//' -e 's/^DOMAIN-KEYWORD,/keyword:/' -e 's/^DOMAIN-REGEX,/regexp:/' > ./community/mydata/fakeip-filter
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | grep -v 'PROCESS-NAME,' | sed -e '/^\s*$/d' -e 's/^DOMAIN,/full:/' -e 's/^DOMAIN-SUFFIX,//' -e 's/^DOMAIN-KEYWORD,/keyword:/' -e 's/^DOMAIN-REGEX,/regexp:/' > ./community/mydata/fakeip-filter
           cd ./community/
+          go run ./ --datapath=./mydata/ --outputname geosite-all-sing-box.dat
+          rm -f ./mydata/fakeip-filter
           go run ./ --datapath=./mydata/ --outputname geosite-all.dat
 
           # Generate `clash` geosite-all-lite.dat
           rm -f ./mydata/ads
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | grep -v 'PROCESS-NAME,' | sed -e '/^\s*$/d' -e 's/^DOMAIN,/full:/' -e 's/^DOMAIN-SUFFIX,//' -e 's/^DOMAIN-KEYWORD,/keyword:/' -e 's/^DOMAIN-REGEX,/regexp:/' > ./mydata/fakeip-filter
+          go run ./ --datapath=./mydata/ --outputname geosite-all-lite-sing-box.dat
+          rm -f ./mydata/fakeip-filter
           go run ./ --datapath=./mydata/ --outputname geosite-all-lite.dat
 
           # Generate `clash` geosite.dat
           rm -f ./mydata/*
           for ((i = 0; i < 10; i++)); do
-            curl -sSL "${domains_download_url}/${archs2[i]}.list" | grep -Ev 'DOMAIN-REGEX,|PROCESS-' | sed -e '/^\s*$/d' -e 's/^DOMAIN,/full:/' -e 's/^DOMAIN-SUFFIX,//' -e 's/^DOMAIN-KEYWORD,/keyword:/' > "./mydata/${archs2[i]}"
+            curl -sSL "${domains_download_url}/${archs2[i]}.list" | grep -Ev 'DOMAIN-REGEX,|PROCESS-NAME,' | sed -e '/^\s*$/d' -e 's/^DOMAIN,/full:/' -e 's/^DOMAIN-SUFFIX,//' -e 's/^DOMAIN-KEYWORD,/keyword:/' > "./mydata/${archs2[i]}"
           done
-          curl -sSL "${domains_download_url}/fakeip-filter.list" | grep -v 'PROCESS-' | sed -e '/^\s*$/d' -e 's/^DOMAIN,/full:/' -e 's/^DOMAIN-SUFFIX,//' -e 's/^DOMAIN-KEYWORD,/keyword:/' -e 's/^DOMAIN-REGEX,/regexp:/' > ./mydata/fakeip-filter
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | grep -v 'PROCESS-NAME,' | sed -e '/^\s*$/d' -e 's/^DOMAIN,/full:/' -e 's/^DOMAIN-SUFFIX,//' -e 's/^DOMAIN-KEYWORD,/keyword:/' -e 's/^DOMAIN-REGEX,/regexp:/' > ./mydata/fakeip-filter
+          go run ./ --datapath=./mydata/ --outputname geosite-sing-box.dat
+          rm -f ./mydata/fakeip-filter
           go run ./ --datapath=./mydata/ --outputname geosite.dat
 
           # Generate `clash` geosite-lite.dat
           rm -f ./mydata/ads
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | grep -v 'PROCESS-NAME,' | sed -e '/^\s*$/d' -e 's/^DOMAIN,/full:/' -e 's/^DOMAIN-SUFFIX,//' -e 's/^DOMAIN-KEYWORD,/keyword:/' -e 's/^DOMAIN-REGEX,/regexp:/' > ./mydata/fakeip-filter
+          go run ./ --datapath=./mydata/ --outputname geosite-lite-sing-box.dat
+          rm -f ./mydata/fakeip-filter
           go run ./ --datapath=./mydata/ --outputname geosite-lite.dat
 
       - name: Generate `sing-box` geodata
         run: |
           cd ./community/ || exit 1
           go install -trimpath -ldflags="-s -w -buildid=" github.com/metacubex/geo/cmd/geo@master
-          for file in $(ls *.dat | sed 's/\..*//'); do
-            geo convert site -i v2ray -o sing -f "./${file}.db" "./${file}.dat"
+          for file in $(ls *sing-box.dat | sed 's/-sing-box\.dat$//'); do
+            geo convert site -i v2ray -o sing -f "./${file}.db" "./${file}-sing-box.dat"
           done
+          rm -f ./*sing-box.dat
 
       - name: Get geoip relative files
         run: |
