@@ -27,7 +27,6 @@ jobs:
         run: |
           mkdir -p ./tmp/ ./clash-config/ ./sing-box-config/
           cat <<EOF > ./clash-config/geodata-fakeip-user.yaml
-          ipv6: true
           mode: rule
           log-level: error
           allow-lan: true
@@ -85,7 +84,6 @@ jobs:
       - name: Generate `clash` geodata-redirhost-user.yaml
         run: |
           cat <<EOF > ./clash-config/geodata-redirhost-user.yaml
-          ipv6: true
           mode: rule
           log-level: error
           allow-lan: true
@@ -141,7 +139,7 @@ jobs:
 
       - name: Generate `clash` ruleset-fakeip-user.yaml
         run: |
-          sed -e '/geodata-mode: true/,/geo-update-interval: 24/d' -e '/^$/N;/\n$/D' ./clash-config/geodata-fakeip-user.yaml > ./clash-config/ruleset-fakeip-user.yaml
+          sed '/geodata-mode: true/,/geo-update-interval: 24/d' ./clash-config/geodata-fakeip-user.yaml | sed '/^$/N;/\n$/D'  > ./clash-config/ruleset-fakeip-user.yaml
 
       - name: Generate `clash` ruleset-fakeip-user-noprocess.yaml
         run: |
@@ -153,7 +151,7 @@ jobs:
 
       - name: Generate `clash` ruleset-redirhost-user.yaml
         run: |
-          sed -e '/geodata-mode: true/,/geo-update-interval: 24/d' -e '/^$/N;/\n$/D' -e 's/geosite/rule-set/' ./clash-config/geodata-redirhost-user.yaml > ./clash-config/ruleset-redirhost-user.yaml
+          sed '/geodata-mode: true/,/geo-update-interval: 24/d' ./clash-config/geodata-redirhost-user.yaml | sed '/^$/N;/\n$/D' | sed 's/geosite/rule-set/'  > ./clash-config/ruleset-redirhost-user.yaml
 
       - name: Generate `clash` ruleset-redirhost-user-noprocess.yaml
         run: |
