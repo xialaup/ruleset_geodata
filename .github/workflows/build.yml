@@ -62,6 +62,8 @@ jobs:
           mkdir -p ./community/mydata/
           archs1=(ads private microsoft-cn apple-cn google-cn games-cn ai networktest netflix disney max primevideo appletv youtube tiktok bilibili proxy cn)
           archs2=(ads private microsoft-cn apple-cn google-cn games-cn ai networktest proxy cn)
+
+          # Generate `clash` geosite-all.dat
           for ((i = 0; i < 18; i++)); do
             curl -sSL "${domains_download_url}/${archs1[i]}.list" | grep -Ev 'DOMAIN-REGEX,|PROCESS-NAME,' | sed -e '/^\s*$/d' -e 's/^DOMAIN,/full:/' -e 's/^DOMAIN-SUFFIX,//' -e 's/^DOMAIN-KEYWORD,/keyword:/' > "./community/mydata/${archs1[i]}"
           done
