@@ -121,7 +121,7 @@ jobs:
           for file in $(ls *.db); do
             install -Dp "./${file}" ../sing-box/
           done
-          rm -rf ../community*
+          rm -rf ../custom* ../community*
 
       - name: Generate `clash` rule-set
         run: |
