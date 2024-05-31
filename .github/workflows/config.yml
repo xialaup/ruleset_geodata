@@ -184,7 +184,7 @@ jobs:
                 { "query_type": [ "A", "AAAA" ], "server": "dns_fakeip" }
               ],
               "final": "dns_direct",
-              "strategy": "prefer_ipv6",
+              "strategy": "prefer_ipv4",
               "independent_cache": true,
               "reverse_mapping": true,
               "mapping_override": true,
