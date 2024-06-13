@@ -181,12 +181,12 @@ jobs:
                 { "outbound": "any", "server": "dns_direct" },
                 { "clash_mode": "Direct", "server": "dns_direct" },
                 { "clash_mode": "Global", "server": "dns_fakeip" },
-                { "geosite": [ "ads" ], "server": "dns_block" },
+                { "geosite": [ "ads" ], "server": "dns_block", "rewrite_ttl": 1, "disable_cache": true },
                 { "geosite": [ "fakeip-filter", "private" ], "query_type": [ "A", "AAAA" ], "server": "dns_direct" },
-                { "geosite": [ "cn", "proxy" ], "query_type": [ "A", "AAAA" ], "server": "dns_fakeip" },
-                { "fallback_rules": [ { "geosite": [ "cn" ], "invert": true } ], "server": "dns_direct" }
+                { "geosite": [ "cn", "proxy" ], "query_type": [ "A", "AAAA" ], "server": "dns_fakeip", "rewrite_ttl": 1 },
+                { "fallback_rules": [ { "geosite": [ "cn" ], "invert": true } ], "server": "dns_proxy" }
               ],
-              "final": "dns_proxy",
+              "final": "dns_direct",
               "strategy": "prefer_ipv4",
               "independent_cache": true,
               "reverse_mapping": true,
