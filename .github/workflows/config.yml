@@ -180,7 +180,7 @@ jobs:
               "rules": [
                 { "outbound": "any", "server": "dns_direct" },
                 { "clash_mode": "Direct", "server": "dns_direct" },
-                { "clash_mode": "Global", "server": "dns_fakeip" },
+                { "clash_mode": "Global", "server": "dns_proxy" },
                 { "geosite": [ "ads" ], "server": "dns_block", "rewrite_ttl": 1, "disable_cache": true },
                 { "geosite": [ "fakeip-filter", "private" ], "query_type": [ "A", "AAAA" ], "server": "dns_direct" },
                 { "geosite": [ "cn", "proxy" ], "query_type": [ "A", "AAAA" ], "server": "dns_fakeip", "rewrite_ttl": 1 },
